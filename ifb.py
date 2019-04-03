@@ -42,8 +42,63 @@ class IFB():
         
         except Exception as e:
             print(e)
+            exit()
         else:
             self.session.headers.update({ 'Authorization': "Bearer %s" % self.access_token })
+
+    def getAllProfiles(self,grammar=None):
+        try:
+            offset = 0
+            limit = 100
+            profiles = []
+
+            while True:
+                try:
+                    request = "https://%s/exzact/api/v60/profiles?offset=%s&limit=%s" % (self.server,offset,limit)
+                    if grammar != None:
+                        request = request + "&%s" % grammar
+                    request_profiles = self.session.get(request)
+                except Exception as e:
+                    print(e)
+                    exit()
+                else:
+                    if len(request_profiles.json()) == 0:
+                        break
+                    else:
+                        profiles = profiles + request_profiles.json()
+                        offset = offset + limit
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return profiles
+
+    def getAllPages(self,page_id,grammar=None):
+        try:
+            offset = 0
+            limit = 100
+            pages = []
+
+            while True:
+                try:
+                    request = "https://%s/exzact/api/v60/profiles/%s/pages?offset=%s&limit=%s" % (self.server,page_id,offset,limit)
+                    if grammar != None:
+                        request = request + "&%s" % grammar
+                    request_pages = self.session.get(request)
+                except Exception as e:
+                    print(e)
+                    exit()
+                else:
+                    if len(request_pages.json()) == 0:
+                        break
+                    else:
+                        pages = pages + request_pages.json()
+                        offset = offset + limit
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return pages
 
 if __name__ == "__main__":
     pass
