@@ -6,6 +6,7 @@ parser = argparse.ArgumentParser(description='')
 parser.add_argument('--server', dest='servername', help='iFormBuilder server name (ie. app.iformbuilder.com)')
 parser.add_argument('--client-id', dest='client_id', help='Client ID from iFormBuilder API App')
 parser.add_argument('--client-secret', dest='client_secret', help='Client Secret from iFormBuilder API App')
+parser.add_argument('--profile-id', dest='profile_id', help='Profile ID of Option Lists')
 
 args = parser.parse_args()
 
@@ -20,23 +21,26 @@ client_secret = args.client_secret
 
 ifb = IFB(server,client_id,client_secret)
 
-print('Retrieving Profiles...')
-profiles = ifb.getAllProfiles()
+if args.profile_id == None:
+    print('Retrieving Profiles...')
+    profiles = ifb.getAllProfiles()
 
-profile_dict = {}
+    profile_dict = {}
 
-print('Listing Profiles: ')
-for profile in profiles:
-    if profile['id'] != 1:
-        print("[%s] %s" % (profile['id'],profile['name']))
-        profile_dict[profile['id']] = profile['name']
-    
-selected_profile = int(input('Select Profile ID: ').strip())
-if selected_profile == 1 or selected_profile not in profile_dict:
-    print('Invalid Profile ID...exiting')
-    exit()
+    print('Listing Profiles: ')
+    for profile in profiles:
+        if profile['id'] != 1:
+            print("[%s] %s" % (profile['id'],profile['name']))
+            profile_dict[profile['id']] = profile['name']
+        
+    selected_profile = int(input('Select Profile ID: ').strip())
+    if selected_profile == 1 or selected_profile not in profile_dict:
+        print('Invalid Profile ID...exiting')
+        exit()
+else:
+    selected_profile = args.profile_id
 
-print("Retrieving Option Lists for %s..." % profile_dict[selected_profile])
+print("Retrieving Option Lists for %s..." % selected_profile)
 option_lists = ifb.getAllOptionLists(selected_profile)
 
 print('Deleting Option Lists with Zero Dependencies...')
