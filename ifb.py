@@ -44,3 +44,6 @@ class IFB():
             print(e)
         else:
             self.session.headers.update({ 'Authorization': "Bearer %s" % self.access_token })
+
+if __name__ == "__main__":
+    pass
