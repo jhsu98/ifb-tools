@@ -57,15 +57,15 @@ class IFB():
                     request = "https://%s/exzact/api/v60/profiles?offset=%s&limit=%s" % (self.server,offset,limit)
                     if grammar != None:
                         request = request + "&%s" % grammar
-                    request_profiles = self.session.get(request)
+                    get_profiles = self.session.get(request)
                 except Exception as e:
                     print(e)
                     exit()
                 else:
-                    if len(request_profiles.json()) == 0:
+                    if len(get_profiles.json()) == 0:
                         break
                     else:
-                        profiles = profiles + request_profiles.json()
+                        profiles = profiles + get_profiles.json()
                         offset = offset + limit
         except Exception as e:
             print(e)
@@ -84,15 +84,15 @@ class IFB():
                     request = "https://%s/exzact/api/v60/profiles/%s/pages?offset=%s&limit=%s" % (self.server,profile_id,offset,limit)
                     if grammar != None:
                         request = request + "&%s" % grammar
-                    request_pages = self.session.get(request)
+                    get_pages = self.session.get(request)
                 except Exception as e:
                     print(e)
                     exit()
                 else:
-                    if len(request_pages.json()) == 0:
+                    if len(get_pages.json()) == 0:
                         break
                     else:
-                        pages = pages + request_pages.json()
+                        pages = pages + get_pages.json()
                         offset = offset + limit
         except Exception as e:
             print(e)
@@ -111,15 +111,15 @@ class IFB():
                     request = "https://%s/exzact/api/v60/profiles/%s/optionlists?offset=%s&limit=%s" % (self.server,profile_id,offset,limit)
                     if grammar != None:
                         request = request + "&%s" % grammar
-                    request_option_lists = self.session.get(request)
+                    get_option_lists = self.session.get(request)
                 except Exception as e:
                     print(e)
                     exit()
                 else:
-                    if len(request_option_lists.json()) == 0:
+                    if len(get_option_lists.json()) == 0:
                         break
                     else:
-                        option_lists = option_lists + request_option_lists.json()
+                        option_lists = option_lists + get_option_lists.json()
                         offset = offset + limit
         except Exception as e:
             print(e)
@@ -130,12 +130,12 @@ class IFB():
     def getOptionListDependencies(self,profile_id,option_list_id):
         try:
             request = "https://%s/exzact/api/v60/profiles/%s/optionlists/%s/dependencies" % (self.server,profile_id,option_list_id)
-            request_option_list_dependencies = self.session.get(request)
+            get_option_list_dependencies = self.session.get(request)
         except Exception as e:
             print(e)
             exit()
         else:
-            return request_option_list_dependencies.json()
+            return get_option_list_dependencies.json()
 
     def deleteOptionList(self,profile_id,option_list_id):
         try:
@@ -158,15 +158,15 @@ class IFB():
                     request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/elements?offset=%s&limit=%s" % (self.server,profile_id,page_id,offset,limit)
                     if grammar != None:
                         request = request + "&%s" % grammar
-                    request_elements = self.session.get(request)
+                    get_elements = self.session.get(request)
                 except Exception as e:
                     print(e)
                     exit()
                 else:
-                    if len(request_elements.json()) == 0:
+                    if len(get_elements.json()) == 0:
                         break
                     else:
-                        elements = elements + request_elements.json()
+                        elements = elements + get_elements.json()
                         offset = offset + limit
         except Exception as e:
             print(e)
