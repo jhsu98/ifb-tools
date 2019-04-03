@@ -14,9 +14,9 @@ client_id = args.client_id
 client_secret = args.client_secret
 
 ## DEBUGGING LINE TO HARDCODE API APP INFO
-server = 'zeriontest.iformbuilder.com'
-client_id = '3d34ee4e781d7e4750ff2c73df96cf70102d05df'
-client_secret = 'af69c4801d49204d76aa7d30f6e7357494bbef33'
+# server = ''
+# client_id = ''
+# client_secret = ''
 
 ifb = IFB(server,client_id,client_secret)
 
