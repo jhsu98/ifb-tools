@@ -73,7 +73,7 @@ class IFB():
         else:
             return profiles
 
-    def getAllPages(self,page_id,grammar=None):
+    def getAllPages(self,profile_id,grammar=None):
         try:
             offset = 0
             limit = 100
@@ -81,7 +81,7 @@ class IFB():
 
             while True:
                 try:
-                    request = "https://%s/exzact/api/v60/profiles/%s/pages?offset=%s&limit=%s" % (self.server,page_id,offset,limit)
+                    request = "https://%s/exzact/api/v60/profiles/%s/pages?offset=%s&limit=%s" % (self.server,profile_id,offset,limit)
                     if grammar != None:
                         request = request + "&%s" % grammar
                     request_pages = self.session.get(request)
@@ -99,6 +99,33 @@ class IFB():
             exit()
         else:
             return pages
+
+    def getAllElements(self,profile_id,page_id,grammar=None):
+        try:
+            offset = 0
+            limit = 100
+            elements = []
+
+            while True:
+                try:
+                    request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/elements?offset=%s&limit=%s" % (self.server,profile_id,page_id,offset,limit)
+                    if grammar != None:
+                        request = request + "&%s" % grammar
+                    request_elements = self.session.get(request)
+                except Exception as e:
+                    print(e)
+                    exit()
+                else:
+                    if len(request_elements.json()) == 0:
+                        break
+                    else:
+                        elements = elements + request_elements.json()
+                        offset = offset + limit
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return elements
 
 if __name__ == "__main__":
     pass
