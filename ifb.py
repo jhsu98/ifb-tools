@@ -127,6 +127,32 @@ class IFB():
         else:
             return option_lists
 
+    def getAllOptionListDependencies(self,profile_id,option_list_id):
+        offset = 0
+        limit = 100
+        dependencies = []
+
+        try:
+            while True:
+                try:
+                    request = "https://%s/exzact/api/v60/profiles/%s/optionlists/%s/dependencies?offset=%s&limit=%s" % (self.server,profile_id,option_list_id,offset,limit)
+                    request_option_list_dependencies = self.session.get(request)
+                except Exception as e:
+                    print(e)
+                    exit()
+                else:
+                    if len(request_option_list_dependencies.josn()) == 0:
+                        break
+                    else:
+                        dependencies = dependencies + request_option_list_dependencies.json()
+                        offset = offset + limit
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return dependencies
+            
+
     def getAllElements(self,profile_id,page_id,grammar=None):
         offset = 0
         limit = 100
