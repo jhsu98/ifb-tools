@@ -127,5 +127,15 @@ class IFB():
         else:
             return elements
 
+    def postElements(self,profile_id,page_id,body):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/elements" % (self.server,profile_id,page_id)
+            post_elements = self.session.post(request,data=json.dumps(body))
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return post_elements.json()
+
 if __name__ == "__main__":
     pass
