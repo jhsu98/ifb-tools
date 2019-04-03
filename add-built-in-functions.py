@@ -92,4 +92,4 @@ else:
     print("No elements to add...exiting")
     exit()
 
-print("Script completed...")
+print("Script complete, elements added")
