@@ -47,11 +47,11 @@ class IFB():
             self.session.headers.update({ 'Authorization': "Bearer %s" % self.access_token })
 
     def getAllProfiles(self,grammar=None):
-        try:
-            offset = 0
-            limit = 100
-            profiles = []
+        offset = 0
+        limit = 100
+        profiles = []
 
+        try:
             while True:
                 try:
                     request = "https://%s/exzact/api/v60/profiles?offset=%s&limit=%s" % (self.server,offset,limit)
@@ -74,11 +74,11 @@ class IFB():
             return profiles
 
     def getAllPages(self,profile_id,grammar=None):
-        try:
-            offset = 0
-            limit = 100
-            pages = []
+        offset = 0
+        limit = 100
+        pages = []
 
+        try:
             while True:
                 try:
                     request = "https://%s/exzact/api/v60/profiles/%s/pages?offset=%s&limit=%s" % (self.server,profile_id,offset,limit)
@@ -100,12 +100,39 @@ class IFB():
         else:
             return pages
 
-    def getAllElements(self,profile_id,page_id,grammar=None):
-        try:
-            offset = 0
-            limit = 100
-            elements = []
+    def getAllOptionLists(self,profile_id,grammar=None):
+        offset = 0
+        limit = 100
+        option_lists = []
 
+        try:
+            while True:
+                try:
+                    request = "https://%s/exzact/api/v60/profiles/%s/optionlists?offset=%s&limit=%s" % (self.server,profile_id,offset,limit)
+                    if grammar != None:
+                        request = request + "&%s" % grammar
+                    request_option_lists = self.session.get(request)
+                except Exception as e:
+                    print(e)
+                    exit()
+                else:
+                    if len(request_option_lists.json()) == 0:
+                        break
+                    else:
+                        option_lists = option_lists + request_option_lists.json()
+                        offset = offset + limit
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return option_lists
+
+    def getAllElements(self,profile_id,page_id,grammar=None):
+        offset = 0
+        limit = 100
+        elements = []
+        
+        try:
             while True:
                 try:
                     request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/elements?offset=%s&limit=%s" % (self.server,profile_id,page_id,offset,limit)
