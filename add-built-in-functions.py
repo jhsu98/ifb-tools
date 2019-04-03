@@ -54,4 +54,32 @@ if selected_page not in pages_dict:
 print("Retrieving Elements for %s..." % pages_dict[selected_page])
 elements = ifb.getAllElements(selected_profile,selected_page)
 
-print(elements)
+elements_list = []
+for element in elements:
+    elements_list.append(element['name'])
+
+print("Preparing Built-In Functions for %s..." % pages_dict[selected_page])
+built_in_functions = {}
+built_in_functions['server_name'] = 'iformbuilder.serverName'
+built_in_functions['profile_id'] = 'iformbuilder.profileID'
+built_in_functions['page_id'] = 'iformbuilder.pageID'
+built_in_functions['app_name'] = 'iformbuilder.appName'
+built_in_functions['app_version'] = 'iformbuilder.appVersion'
+built_in_functions['os_type'] = 'iformbuilder.osType'
+built_in_functions['os_version'] = 'iformbuilder.osVersion'
+built_in_functions['device_model'] = 'iformbuilder.deviceModel'
+built_in_functions['device_language'] = 'iformbuilder.deviceLanguage'
+
+elements_post_body = []
+for key in built_in_functions:
+    if key in elements_list:
+        print("Skipping %s, already exists" % key)
+    else:
+        elements_post_body.append({ 'name':key,'label':key,'data_type':33,'dynamic_value':built_in_functions[key],'condition_value':'false','reference_id_1':'ELEMENT_SKIP_REPORT' })
+
+if len(elements_post_body) > 0:
+    print("Posting Built-In Functions for %s..." % pages_dict[selected_page])
+    response = ifb.postElements(selected_profile,selected_page,elements_post_body)
+else:
+    print("No elements to add...exiting")
+    exit()
