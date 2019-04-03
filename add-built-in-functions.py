@@ -6,6 +6,8 @@ parser = argparse.ArgumentParser(description='')
 parser.add_argument('--server', dest='servername', help='iFormBuilder server name (ie. app.iformbuilder.com)')
 parser.add_argument('--client-id', dest='client_id', help='Client ID from iFormBuilder API App')
 parser.add_argument('--client-secret', dest='client_secret', help='Client Secret from iFormBuilder API App')
+parser.add_argument('--profile-id', dest='profile_id', help='Profile ID for Pages')
+parser.add_argument('--page-id', dest='page_id', help='Page ID to Add Elements')
 
 args = parser.parse_args()
 
@@ -20,45 +22,51 @@ client_secret = args.client_secret
 
 ifb = IFB(server,client_id,client_secret)
 
-print('Retrieving Profiles...')
-profiles = ifb.getAllProfiles()
+if args.profile_id == None:
+    print('Retrieving Profiles...')
+    profiles = ifb.getAllProfiles()
 
-profile_dict = {}
+    profile_dict = {}
 
-print('Listing Profile(s): ')
-for profile in profiles:
-    if profile['id'] != 1:
-        print("[%s] %s" % (profile['id'],profile['name']))
-        profile_dict[profile['id']] = profile['name']
-    
-selected_profile = int(input('Select Profile ID: ').strip())
-if selected_profile == 1 or selected_profile not in profile_dict:
-    print('Invalid Profile ID...exiting')
-    exit()
+    print('Listing Profile(s): ')
+    for profile in profiles:
+        if profile['id'] != 1:
+            print("[%s] %s" % (profile['id'],profile['name']))
+            profile_dict[profile['id']] = profile['name']
+        
+    selected_profile = int(input('Select Profile ID: ').strip())
+    if selected_profile == 1 or selected_profile not in profile_dict:
+        print('Invalid Profile ID...exiting')
+        exit()
+else:
+    selected_profile = args.profile_id
 
-print("Retrieving Pages for %s..." % profile_dict[selected_profile])
-pages = ifb.getAllPages(selected_profile,"fields=id,name,label")
+if args.page_id == None:
+    print("Retrieving Pages for %s..." % selected_profile)
+    pages = ifb.getAllPages(selected_profile,"fields=id,name,label")
 
-pages_dict = {}
+    pages_dict = {}
 
-print('Listing Page(s): ')
-for page in pages:
-    print("[%s] %s" % (page['id'],page['label']))
-    pages_dict[page['id']] = page['label']
+    print('Listing Page(s): ')
+    for page in pages:
+        print("[%s] %s" % (page['id'],page['label']))
+        pages_dict[page['id']] = page['label']
 
-selected_page = int(input('Select Profile ID: ').strip())
-if selected_page not in pages_dict:
-    print('Invalid Page ID...exiting')
-    exit()
+    selected_page = int(input('Select Profile ID: ').strip())
+    if selected_page not in pages_dict:
+        print('Invalid Page ID...exiting')
+        exit()
+else:
+    selected_page = args.page_id
 
-print("Retrieving Elements for %s..." % pages_dict[selected_page])
+print("Retrieving Elements for %s..." % selected_page)
 elements = ifb.getAllElements(selected_profile,selected_page)
 
 elements_list = []
 for element in elements:
     elements_list.append(element['name'])
 
-print("Preparing Built-In Functions for %s..." % pages_dict[selected_page])
+print("Preparing Built-In Functions for %s..." % selected_page)
 built_in_functions = {}
 built_in_functions['server_name'] = 'iformbuilder.serverName'
 built_in_functions['profile_id'] = 'iformbuilder.profileID'
@@ -78,8 +86,10 @@ for key in built_in_functions:
         elements_post_body.append({ 'name':key,'label':key,'data_type':33,'dynamic_value':built_in_functions[key],'condition_value':'false','reference_id_1':'ELEMENT_SKIP_REPORT' })
 
 if len(elements_post_body) > 0:
-    print("Posting Built-In Functions for %s..." % pages_dict[selected_page])
+    print("Posting Built-In Functions for %s..." % selected_page)
     response = ifb.postElements(selected_profile,selected_page,elements_post_body)
 else:
     print("No elements to add...exiting")
     exit()
+
+print("Script completed...")
