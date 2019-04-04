@@ -46,6 +46,19 @@ class IFB():
         else:
             self.session.headers.update({ 'Authorization': "Bearer %s" % self.access_token })
 
+    def getProfile(self,profile_id):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s" % (self.server,profile_id)
+            get_profile = self.session.get(request)
+
+            if get_profile.status_code == 200:
+                return get_profile.json()
+            else:
+                return False
+        except Exception as e:
+            print(e)
+            exit()
+
     def getAllProfiles(self,grammar=None):
         offset = 0
         limit = 100
@@ -72,6 +85,16 @@ class IFB():
             exit()
         else:
             return profiles
+
+    def postUsers(self,profile_id,body):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/users" % (self.server,profile_id)
+            post_users = self.session.post(request,data=json.dumps(body))
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return post_users.json()
 
     def getAllPages(self,profile_id,grammar=None):
         offset = 0
