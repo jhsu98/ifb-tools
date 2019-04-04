@@ -20,7 +20,15 @@ class IFB():
             print(e)
             exit()
 
+####################################
+## TOKEN RESOURCES
+####################################
+
     def requestAccessToken(self):
+        """Create JWT and request iFormBuilder Access Token
+        If token is successfully returned, stored in session header
+        Else null token is stored in session header
+        """
         try:
             token_endpoint = "https://%s/exzact/api/oauth/token" % self.server
             jwt_payload = {
@@ -46,7 +54,19 @@ class IFB():
         else:
             self.session.headers.update({ 'Authorization': "Bearer %s" % self.access_token })
 
+####################################
+## PROFILE RESOURCES
+####################################
+
     def getProfile(self,profile_id):
+        """GET request for single profile
+        
+        Arguments:
+            profile_id {int} -- iFormBuilder profile
+        
+        Returns:
+            dict -- Decoded JSON object with profile information
+        """
         try:
             request = "https://%s/exzact/api/v60/profiles/%s" % (self.server,profile_id)
             get_profile = self.session.get(request)
@@ -60,6 +80,14 @@ class IFB():
             exit()
 
     def getAllProfiles(self,grammar=None):
+        """GET requests for all profiles, fields returned specified in grammar
+        
+        Keyword Arguments:
+            grammar {string} -- iFormBuilder field grammar (default: {None})
+        
+        Returns:
+            list -- Decoded array of JSON objects
+        """
         offset = 0
         limit = 100
         profiles = []
@@ -86,7 +114,20 @@ class IFB():
         else:
             return profiles
 
+####################################
+## USER RESOURCES
+####################################
+
     def postUsers(self,profile_id,body):
+        """POST request to create users in a given profile
+        
+        Arguments:
+            profile_id {int} -- iFormBuilder profile id
+            body {list|dict} -- List of dictionaries, minimum username/password/email
+        
+        Returns:
+            list|dict -- Decoded Array of JSON objects or single object
+        """
         try:
             request = "https://%s/exzact/api/v60/profiles/%s/users" % (self.server,profile_id)
             post_users = self.session.post(request,data=json.dumps(body))
@@ -96,7 +137,22 @@ class IFB():
         else:
             return post_users.json()
 
+####################################
+## PAGE RESOURCES
+####################################
+
     def getAllPages(self,profile_id,grammar=None):
+        """GET request for all pages in a given profile, fields returned specified by grammar
+        
+        Arguments:
+            profile_id {int} -- iFormBuilder profile id
+        
+        Keyword Arguments:
+            grammar {string} -- iFormBuilder field grammar (default: {None})
+        
+        Returns:
+            list -- Decoded Array of JSON objects
+        """
         offset = 0
         limit = 100
         pages = []
@@ -123,7 +179,22 @@ class IFB():
         else:
             return pages
 
+####################################
+## OPTION LIST RESOURCES
+####################################
+
     def getAllOptionLists(self,profile_id,grammar=None):
+        """GET request for all Option Lists in a given profile, fields returned specified by grammar
+        
+        Arguments:
+            profile_id {int} -- iFormBuilder profile id
+        
+        Keyword Arguments:
+            grammar {string} -- iFormBuilder field grammar (default: {None})
+        
+        Returns:
+            list -- Decoded Array of JSON objects
+        """
         offset = 0
         limit = 100
         option_lists = []
@@ -151,6 +222,16 @@ class IFB():
             return option_lists
 
     def getOptionListDependencies(self,profile_id,option_list_id):
+        """GET request for dependencies of a given Option List
+        Dependencies are Elements where the Option List is assigned
+        
+        Arguments:
+            profile_id {int} -- iFormBuilder profile id
+            option_list_id {int} -- iFormBuilder option list id
+        
+        Returns:
+            list -- Decoded Array of JSON objects
+        """
         try:
             request = "https://%s/exzact/api/v60/profiles/%s/optionlists/%s/dependencies" % (self.server,profile_id,option_list_id)
             get_option_list_dependencies = self.session.get(request)
@@ -161,6 +242,15 @@ class IFB():
             return get_option_list_dependencies.json()
 
     def deleteOptionList(self,profile_id,option_list_id):
+        """DELETE request for a single option list
+        
+        Arguments:
+            profile_id {int} -- iFormBuilder profile id
+            option_list_id {int} -- iFormBuilder option list id
+        
+        Returns:
+            dict -- Decoded JSON object
+        """
         try:
             request = "https://%s/exzact/api/v60/profiles/%s/optionlists/%s" % (self.server,profile_id,option_list_id)
             del_option_list = self.session.delete(request)
@@ -170,7 +260,23 @@ class IFB():
         else:
             return del_option_list.json()
 
+####################################
+## ELEMENT RESOURCES
+####################################
+
     def getAllElements(self,profile_id,page_id,grammar=None):
+        """GET request for all elements in a specified page, fields returned by specified grammar
+        
+        Arguments:
+            profile_id {int} -- iFormBuilder profile id
+            page_id {int} -- iFormBuilder page id
+        
+        Keyword Arguments:
+            grammar {string} -- iFormBuilder field grammar (default: {None})
+        
+        Returns:
+            list -- Decoded Array of JSON objects
+        """
         offset = 0
         limit = 100
         elements = []
@@ -198,6 +304,16 @@ class IFB():
             return elements
 
     def postElements(self,profile_id,page_id,body):
+        """POST request to add elements to a given page
+        
+        Arguments:
+            profile_id {int} -- iFormBuilder profile id
+            page_id {int} -- iFormBuilder page id
+            body {list|dict} -- List of dictionaries or single dictionary to be added to page
+        
+        Returns:
+            list -- Decoded Array of JSON objects
+        """
         try:
             request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/elements" % (self.server,profile_id,page_id)
             post_elements = self.session.post(request,data=json.dumps(body))
