@@ -105,15 +105,15 @@ class IFB():
     ## USER RESOURCES
     ####################################
 
-    def getUsers(self,profile_id):
-        try:
-            request = "https://%s/exzact/api/v60/profiles/%s/users?limit=1" % (self.server,profile_id)
-            get_users = self.session.post(request)
-        except Exception as e:
-            print(e)
-            exit()
-        else:
-            return get_users
+    # def getUsers(self,profile_id):
+    #     try:
+    #         request = "https://%s/exzact/api/v60/profiles/%s/users?limit=1" % (self.server,profile_id)
+    #         get_users = self.session.post(request)
+    #     except Exception as e:
+    #         print(e)
+    #         exit()
+    #     else:
+    #         return get_users
 
     def postUsers(self,profile_id,body):
         try:
