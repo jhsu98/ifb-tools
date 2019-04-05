@@ -359,5 +359,27 @@ class IFB():
         else:
             return get_records.json()
 
+    def getAllRecords(self,profile_id,page_id,grammar=None):
+        offset = 0
+        limit = 1000
+        records = []
+
+        print("Fetching records...")
+        while True:
+            try:
+                request = self.getRecords(profile_id,page_id,grammar,limit,offset)
+
+                if len(request) == 0:
+                    break
+                else:
+                    records += request
+                    offset += limit
+                    print("%s records fetched..." % len(records))
+            except Exception as e:
+                print(e)
+                exit()
+
+        return records
+        
 if __name__ == "__main__":
     pass
