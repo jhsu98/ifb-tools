@@ -20,9 +20,9 @@ class IFB():
             print(e)
             exit()
 
-####################################
-## TOKEN RESOURCES
-####################################
+    ####################################
+    ## TOKEN RESOURCES
+    ####################################
 
     def requestAccessToken(self):
         """Create JWT and request iFormBuilder Access Token
@@ -54,9 +54,9 @@ class IFB():
         else:
             self.session.headers.update({ 'Authorization': "Bearer %s" % self.access_token })
 
-####################################
-## PROFILE RESOURCES
-####################################
+    ####################################
+    ## PROFILE RESOURCES
+    ####################################
 
     def getProfile(self,profile_id):
         """GET request for single profile
@@ -97,7 +97,7 @@ class IFB():
                 try:
                     request = "https://%s/exzact/api/v60/profiles?offset=%s&limit=%s" % (self.server,offset,limit)
                     if grammar != None:
-                        request = request + "&%s" % grammar
+                        request += "&fields=%s" % grammar
                     get_profiles = self.session.get(request)
                 except Exception as e:
                     print(e)
@@ -114,9 +114,19 @@ class IFB():
         else:
             return profiles
 
-####################################
-## USER RESOURCES
-####################################
+    ####################################
+    ## USER RESOURCES
+    ####################################
+
+    def getUsers(self,profile_id):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/users?limit=1" % (self.server,profile_id)
+            get_users = self.session.post(request)
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return get_users
 
     def postUsers(self,profile_id,body):
         """POST request to create users in a given profile
@@ -137,9 +147,9 @@ class IFB():
         else:
             return post_users.json()
 
-####################################
-## PAGE RESOURCES
-####################################
+    ####################################
+    ## PAGE RESOURCES
+    ####################################
 
     def getAllPages(self,profile_id,grammar=None):
         """GET request for all pages in a given profile, fields returned specified by grammar
@@ -162,7 +172,7 @@ class IFB():
                 try:
                     request = "https://%s/exzact/api/v60/profiles/%s/pages?offset=%s&limit=%s" % (self.server,profile_id,offset,limit)
                     if grammar != None:
-                        request = request + "&%s" % grammar
+                        request += "&fields=%s" % grammar
                     get_pages = self.session.get(request)
                 except Exception as e:
                     print(e)
@@ -179,9 +189,9 @@ class IFB():
         else:
             return pages
 
-####################################
-## OPTION LIST RESOURCES
-####################################
+    ####################################
+    ## OPTION LIST RESOURCES
+    ####################################
 
     def getAllOptionLists(self,profile_id,grammar=None):
         """GET request for all Option Lists in a given profile, fields returned specified by grammar
@@ -204,7 +214,7 @@ class IFB():
                 try:
                     request = "https://%s/exzact/api/v60/profiles/%s/optionlists?offset=%s&limit=%s" % (self.server,profile_id,offset,limit)
                     if grammar != None:
-                        request = request + "&%s" % grammar
+                        request += "&fields=%s" % grammar
                     get_option_lists = self.session.get(request)
                 except Exception as e:
                     print(e)
@@ -260,9 +270,9 @@ class IFB():
         else:
             return del_option_list.json()
 
-####################################
-## ELEMENT RESOURCES
-####################################
+    ####################################
+    ## ELEMENT RESOURCES
+    ####################################
 
     def getAllElements(self,profile_id,page_id,grammar=None):
         """GET request for all elements in a specified page, fields returned by specified grammar
@@ -286,7 +296,7 @@ class IFB():
                 try:
                     request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/elements?offset=%s&limit=%s" % (self.server,profile_id,page_id,offset,limit)
                     if grammar != None:
-                        request = request + "&%s" % grammar
+                        request += "&fields=%s" % grammar
                     get_elements = self.session.get(request)
                 except Exception as e:
                     print(e)
@@ -322,6 +332,32 @@ class IFB():
             exit()
         else:
             return post_elements.json()
+
+    ####################################
+    ## RECORD RESOURCES
+    ####################################
+
+    def getRecord(self,profile_id,page_id,record_id):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/records/%s" % (self.server,profile_id,page_id,record_id)
+            get_record = self.session.get(request)
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return get_record.json()
+
+    def getRecords(self,profile_id,page_id,grammar=None,limit=100,offset=0):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/records?offset=%s&limit=%s" % (self.server,profile_id,page_id,offset,limit)
+            if grammar != None:
+                request += "&fields=%s" % grammar
+            get_records = self.session.get(request)
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return get_records.json()
 
 if __name__ == "__main__":
     pass
