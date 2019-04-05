@@ -1,7 +1,7 @@
 # ifb-tools
 Collection of Python CLI Tools for iFormBuilder
 
-##iFormBuilder API Calls
+## iFormBuilder API Calls
 
 | Resource | Method | Status |
 |:--------:|:------:|:------:|
