@@ -59,60 +59,47 @@ class IFB():
     ####################################
 
     def getProfile(self,profile_id):
-        """GET request for single profile
-        
-        Arguments:
-            profile_id {int} -- iFormBuilder profile
-        
-        Returns:
-            dict -- Decoded JSON object with profile information
-        """
         try:
             request = "https://%s/exzact/api/v60/profiles/%s" % (self.server,profile_id)
             get_profile = self.session.get(request)
-
-            if get_profile.status_code == 200:
-                return get_profile.json()
-            else:
-                return False
-        except Exception as e:
-            print(e)
-            exit()
-
-    def getAllProfiles(self,grammar=None):
-        """GET requests for all profiles, fields returned specified in grammar
-        
-        Keyword Arguments:
-            grammar {string} -- iFormBuilder field grammar (default: {None})
-        
-        Returns:
-            list -- Decoded array of JSON objects
-        """
-        offset = 0
-        limit = 100
-        profiles = []
-
-        try:
-            while True:
-                try:
-                    request = "https://%s/exzact/api/v60/profiles?offset=%s&limit=%s" % (self.server,offset,limit)
-                    if grammar != None:
-                        request += "&fields=%s" % grammar
-                    get_profiles = self.session.get(request)
-                except Exception as e:
-                    print(e)
-                    exit()
-                else:
-                    if len(get_profiles.json()) == 0:
-                        break
-                    else:
-                        profiles = profiles + get_profiles.json()
-                        offset = offset + limit
         except Exception as e:
             print(e)
             exit()
         else:
-            return profiles
+            return get_profile.json()
+
+    def getProfiles(self,grammar=None,offset=0,limit=100):
+        try:
+            request = "https://%s/exzact/api/v60/profiles?offset=%s&limit=%s" % (self.server,offset,limit)
+            if grammar != None:
+                request += "&fields=%s" % grammar
+            get_profiles = self.session.get(request)
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return get_profiles.json()
+
+    def getAllProfiles(self,grammar=None):
+        offset = 0
+        limit = 100
+        profiles = []
+
+        while True:
+            try:
+                request = self.getProfiles(grammar,offset,limit)
+            
+                if len(request) == 0:
+                    break
+                else:
+                    profiles += request
+                    offset += limit
+                    print("%s profiles fetched..." % len(profiles))
+            except Exception as e:
+                print(e)
+                exit()
+        
+        return profiles
 
     ####################################
     ## USER RESOURCES
@@ -129,15 +116,6 @@ class IFB():
             return get_users
 
     def postUsers(self,profile_id,body):
-        """POST request to create users in a given profile
-        
-        Arguments:
-            profile_id {int} -- iFormBuilder profile id
-            body {list|dict} -- List of dictionaries, minimum username/password/email
-        
-        Returns:
-            list|dict -- Decoded Array of JSON objects or single object
-        """
         try:
             request = "https://%s/exzact/api/v60/profiles/%s/users" % (self.server,profile_id)
             post_users = self.session.post(request,data=json.dumps(body))
@@ -151,116 +129,97 @@ class IFB():
     ## PAGE RESOURCES
     ####################################
 
-    def getAllPages(self,profile_id,grammar=None):
-        """GET request for all pages in a given profile, fields returned specified by grammar
-        
-        Arguments:
-            profile_id {int} -- iFormBuilder profile id
-        
-        Keyword Arguments:
-            grammar {string} -- iFormBuilder field grammar (default: {None})
-        
-        Returns:
-            list -- Decoded Array of JSON objects
-        """
-        offset = 0
-        limit = 100
-        pages = []
-
+    def getPage(self,profile_id,page_id):
         try:
-            while True:
-                try:
-                    request = "https://%s/exzact/api/v60/profiles/%s/pages?offset=%s&limit=%s" % (self.server,profile_id,offset,limit)
-                    if grammar != None:
-                        request += "&fields=%s" % grammar
-                    get_pages = self.session.get(request)
-                except Exception as e:
-                    print(e)
-                    exit()
-                else:
-                    if len(get_pages.json()) == 0:
-                        break
-                    else:
-                        pages = pages + get_pages.json()
-                        offset = offset + limit
+            request = "https://%s/exzact/api/v60/profiles/%s/pages/%s" % (self.server,profile_id,page_id)
+            get_page = self.session.get(request)
         except Exception as e:
             print(e)
             exit()
         else:
-            return pages
+            return get_page.json()
+
+    def getPages(self,profile_id,grammar=None,offset=0,limit=100):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/pages?offset=%s&limit=%s" % (self.server,profile_id,offset,limit)
+            if grammar != None:
+                request += "&fields=%s" % grammar
+            get_pages = self.session.get(request)
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return get_pages.json()
+
+    def getAllPages(self,profile_id,grammar=None):
+        offset = 0
+        limit = 100
+        pages = []
+
+        while True:
+            try:
+                request = self.getPages(profile_id,grammar,offset,limit)
+
+                if len(request) == 0:
+                    break
+                else:
+                    pages += request
+                    offset += limit
+                    print("%s pages fetched..." % len(pages))
+            except Exception as e:
+                print(e)
+                exit()
+
+        return pages
 
     ####################################
     ## OPTION LIST RESOURCES
     ####################################
 
+    def getOptionList(self,profile_id,option_list_id):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/optionlists/%s" % (self.server,profile_id,option_list_id)
+            get_option_list = self.session.get(request)
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return get_option_list.json()
+
+    def getOptionLists(self,profile_id,grammar=None,offset=0,limit=100):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/optionlists?offset=%s&limit=%s" % (self.server,profile_id,offset,limit)
+            if grammar != None:
+                request += "&fields=%s" % grammar
+            get_option_lists = self.session.get(request)
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return get_option_lists.json()
+
     def getAllOptionLists(self,profile_id,grammar=None):
-        """GET request for all Option Lists in a given profile, fields returned specified by grammar
-        
-        Arguments:
-            profile_id {int} -- iFormBuilder profile id
-        
-        Keyword Arguments:
-            grammar {string} -- iFormBuilder field grammar (default: {None})
-        
-        Returns:
-            list -- Decoded Array of JSON objects
-        """
         offset = 0
         limit = 100
         option_lists = []
 
-        try:
-            while True:
-                try:
-                    request = "https://%s/exzact/api/v60/profiles/%s/optionlists?offset=%s&limit=%s" % (self.server,profile_id,offset,limit)
-                    if grammar != None:
-                        request += "&fields=%s" % grammar
-                    get_option_lists = self.session.get(request)
-                except Exception as e:
-                    print(e)
-                    exit()
-                else:
-                    if len(get_option_lists.json()) == 0:
-                        break
-                    else:
-                        option_lists = option_lists + get_option_lists.json()
-                        offset = offset + limit
-        except Exception as e:
-            print(e)
-            exit()
-        else:
-            return option_lists
+        while True:
+            try:
+                request = self.getOptionLists(profile_id,grammar,offset,limit)
 
-    def getOptionListDependencies(self,profile_id,option_list_id):
-        """GET request for dependencies of a given Option List
-        Dependencies are Elements where the Option List is assigned
+                if len(request) == 0:
+                    break
+                else:
+                    option_lists += request
+                    offset += limit
+                    print("%s option lists fetched..." % len(option_lists))
+            except Exception as e:
+                print(e)
+                exit()
         
-        Arguments:
-            profile_id {int} -- iFormBuilder profile id
-            option_list_id {int} -- iFormBuilder option list id
-        
-        Returns:
-            list -- Decoded Array of JSON objects
-        """
-        try:
-            request = "https://%s/exzact/api/v60/profiles/%s/optionlists/%s/dependencies" % (self.server,profile_id,option_list_id)
-            get_option_list_dependencies = self.session.get(request)
-        except Exception as e:
-            print(e)
-            exit()
-        else:
-            return get_option_list_dependencies.json()
+        return option_lists
 
     def deleteOptionList(self,profile_id,option_list_id):
-        """DELETE request for a single option list
-        
-        Arguments:
-            profile_id {int} -- iFormBuilder profile id
-            option_list_id {int} -- iFormBuilder option list id
-        
-        Returns:
-            dict -- Decoded JSON object
-        """
         try:
             request = "https://%s/exzact/api/v60/profiles/%s/optionlists/%s" % (self.server,profile_id,option_list_id)
             del_option_list = self.session.delete(request)
@@ -270,23 +229,21 @@ class IFB():
         else:
             return del_option_list.json()
 
+    def getOptionListDependencies(self,profile_id,option_list_id):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/optionlists/%s/dependencies" % (self.server,profile_id,option_list_id)
+            get_option_list_dependencies = self.session.get(request)
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return get_option_list_dependencies.json()
+
     ####################################
     ## ELEMENT RESOURCES
     ####################################
 
     def getAllElements(self,profile_id,page_id,grammar=None):
-        """GET request for all elements in a specified page, fields returned by specified grammar
-        
-        Arguments:
-            profile_id {int} -- iFormBuilder profile id
-            page_id {int} -- iFormBuilder page id
-        
-        Keyword Arguments:
-            grammar {string} -- iFormBuilder field grammar (default: {None})
-        
-        Returns:
-            list -- Decoded Array of JSON objects
-        """
         offset = 0
         limit = 100
         elements = []
@@ -314,16 +271,6 @@ class IFB():
             return elements
 
     def postElements(self,profile_id,page_id,body):
-        """POST request to add elements to a given page
-        
-        Arguments:
-            profile_id {int} -- iFormBuilder profile id
-            page_id {int} -- iFormBuilder page id
-            body {list|dict} -- List of dictionaries or single dictionary to be added to page
-        
-        Returns:
-            list -- Decoded Array of JSON objects
-        """
         try:
             request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/elements" % (self.server,profile_id,page_id)
             post_elements = self.session.post(request,data=json.dumps(body))
@@ -347,7 +294,7 @@ class IFB():
         else:
             return get_record.json()
 
-    def getRecords(self,profile_id,page_id,grammar=None,limit=100,offset=0):
+    def getRecords(self,profile_id,page_id,grammar=None,offset=0,limit=1000):
         try:
             request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/records?offset=%s&limit=%s" % (self.server,profile_id,page_id,offset,limit)
             if grammar != None:
@@ -364,10 +311,9 @@ class IFB():
         limit = 1000
         records = []
 
-        print("Fetching records...")
         while True:
             try:
-                request = self.getRecords(profile_id,page_id,grammar,limit,offset)
+                request = self.getRecords(profile_id,page_id,grammar,offset,limit)
 
                 if len(request) == 0:
                     break
