@@ -82,8 +82,8 @@ def buildStructure(profile_id,page_id):
 
     return dcns
 
-def buildGrammar(structure):
-    fields = "id,parent_record_id,parent_page_id,parent_element_id,created_date,created_by,created_location,created_device_id,modified_date,modified_by,modified_location,modified_device_id,server_modified_date,"
+def buildGrammar(structure,meta=True):
+    fields = "id,parent_record_id,parent_page_id,parent_element_id,created_date,created_by,created_location,created_device_id,modified_date,modified_by,modified_location,modified_device_id,server_modified_date," if meta == True else ""
 
     for i in range(len(structure)):
         if isinstance(structure[i],dict):
@@ -98,7 +98,7 @@ print("Fetching form structure...")
 structure = buildStructure(selected_profile,selected_page)
 
 print("Building field grammar...")
-fields = buildGrammar(structure)
+fields = buildGrammar(structure,False)
 
 print("Fetching records...")
 data = ifb.getAllRecords(selected_profile,selected_page,fields)
