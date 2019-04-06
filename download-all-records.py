@@ -67,8 +67,8 @@ else:
 
 def buildStructure(profile_id,page_id):
     dcns = []
-    
-    elements = ifb.getAllElements(profile_id,page_id,"id,sort_order,name,data_type,data_size")
+
+    elements = ifb.getAllElements(profile_id,page_id,"name,data_type,data_size")
 
     for i in range(len(elements)):
         if elements[i]['data_type'] in (16,17,35):
@@ -79,11 +79,11 @@ def buildStructure(profile_id,page_id):
             dcns.append(temp)
         else:
             dcns.append(elements[i]['name'])
-    
+
     return dcns
 
 def buildGrammar(structure):
-    fields = "id,"
+    fields = "id,parent_record_id,parent_page_id,parent_element_id,created_date,created_by,created_location,created_device_id,modified_date,modified_by,modified_location,modified_device_id,server_modified_date,"
 
     for i in range(len(structure)):
         if isinstance(structure[i],dict):
@@ -99,7 +99,7 @@ structure = buildStructure(selected_profile,selected_page)
 
 print("Building field grammar...")
 fields = buildGrammar(structure)
-        
+
 print("Fetching records...")
 data = ifb.getAllRecords(selected_profile,selected_page,fields)
 
