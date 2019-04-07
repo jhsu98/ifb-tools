@@ -30,9 +30,12 @@ TO BE ADDED
 | GET | Profile | getProfile |
 | GET | Profiles | getProfiles |
 | GET | * | getAllProfiles |
-| GET | Company Info | getCompanyInfo |
 | DELETE | Profile | deleteProfile |
 | DELETE | Profiles | deleteProfiles |
+
+| Method | Resource | Function |
+|:------:|:--------:|:--------:|
+| GET | Company Info | getCompanyInfo |
 
 ### User
 | Method | Resource | Function |
@@ -41,6 +44,8 @@ TO BE ADDED
 | GET | User | getUser |
 | GET | Users | getUsers |
 | GET | * | getAllUsers |
+| DELETE | User | deleteUser |
+| DELETE | Users | deleteUsers |
 
 ### Page
 | Method | Resource | Function |
@@ -71,6 +76,9 @@ TO BE ADDED
 | GET |  | getAllOptionLists |
 | DELETE | Option List | deleteOptionList |
 | DELETE | Option Lists | deleteOptionLists |
+
+| Method | Resource | Function |
+|:------:|:--------:|:--------:|
 | GET | Option List Dependencies | getOptionListDependencies |
 
 ### Option

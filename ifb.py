@@ -112,17 +112,6 @@ class IFB():
         
         return profiles
 
-    def getCompanyInfo(self,profile_id):
-        try:
-            request = "https://%s/exzact/api/v60/profiles/%s/company_info" % (self.server,profile_id)
-            get_company_info = self.session.get(request)
-            get_company_info.raise_for_status()
-        except Exception as e:
-            print(e)
-            exit()
-        else:
-            return get_company_info.json()
-
     def deleteProfile(self,profile_id):
         try:
             request = "https://%s/exzact/api/v60/profiles/%s" % (self.server,profile_id)
@@ -146,6 +135,17 @@ class IFB():
             exit()
         else:
             return delete_profiles.json()
+
+    def getCompanyInfo(self,profile_id):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/company_info" % (self.server,profile_id)
+            get_company_info = self.session.get(request)
+            get_company_info.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return get_company_info.json()
 
     ####################################
     ## USER RESOURCES
@@ -205,6 +205,30 @@ class IFB():
                 exit()
 
         return users
+
+    def deleteUser(self,profile_id,user_id):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/users/%s" % (self.server,profile_id,user_id)
+            delete_user = self.session.delete(request)
+            delete_user.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return delete_user.json()
+
+    def deleteUsers(self,profile_id,grammar=None,offset=0,limit=100):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/users?offset=%s&limit=%s" % (self.server,profile_id,offset,limit)
+            if grammar != None:
+                request += "&fields=%s" % grammar
+            delete_users = self.session.delete(request)
+            delete_users.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return delete_users.json()
 
     ####################################
     ## PAGE RESOURCES
