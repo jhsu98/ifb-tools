@@ -57,6 +57,17 @@ class IFB():
     ## PROFILE RESOURCES
     ####################################
 
+    def postProfile(self,body):
+        try:
+            request = "https://%s/exzact/api/v60/profiles"
+            post_profile = self.session.post(request,data=json.dumps(body))
+            post_profile.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return post_profile.json()
+
     def getProfile(self,profile_id):
         try:
             request = "https://%s/exzact/api/v60/profiles/%s" % (self.server,profile_id)
@@ -112,17 +123,6 @@ class IFB():
         else:
             return get_company_info.json()
 
-    def postProfile(self,body):
-        try:
-            request = "https://%s/exzact/api/v60/profiles"
-            post_profile = self.session.post(request,data=json.dumps(body))
-            post_profile.raise_for_status()
-        except Exception as e:
-            print(e)
-            exit()
-        else:
-            return post_profile.json()
-
     def deleteProfile(self,profile_id):
         try:
             request = "https://%s/exzact/api/v60/profiles/%s" % (self.server,profile_id)
@@ -151,16 +151,6 @@ class IFB():
     ## USER RESOURCES
     ####################################
 
-    # def getUsers(self,profile_id):
-    #     try:
-    #         request = "https://%s/exzact/api/v60/profiles/%s/users?limit=1" % (self.server,profile_id)
-    #         get_users = self.session.post(request)
-    #     except Exception as e:
-    #         print(e)
-    #         exit()
-    #     else:
-    #         return get_users
-
     def postUsers(self,profile_id,body):
         try:
             request = "https://%s/exzact/api/v60/profiles/%s/users" % (self.server,profile_id)
@@ -172,9 +162,64 @@ class IFB():
         else:
             return post_users.json()
 
+    def getUser(self,profile_id,user_id):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/users/%s" % (self.server,profile_id,user_id)
+            get_user = self.session.get(request)
+            get_user.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return get_user.json()
+
+    def getUsers(self,profile_id,grammar=None,offset=0,limit=100):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/users?offset=%s&limit=%s" % (self.server,profile_id,offset,limit)
+            if grammar != None:
+                request += "&fields=%s" % grammar
+            get_users = self.session.get(request)
+            get_users.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return get_users.json()
+
+    def getAllUsers(self,profile_id,grammar=None):
+        offset = 0
+        limit = 100
+        users = []
+
+        while True:
+            try:
+                request = self.getUsers(profile_id,grammar,offset,limit)
+                if len(request) == 0:
+                    break
+                else:
+                    users += request
+                    offset += limit
+                    print("%s users fetched..." % len(users))
+            except Exception as e:
+                print(e)
+                exit()
+
+        return users
+
     ####################################
     ## PAGE RESOURCES
     ####################################
+
+    def postPage(self,profile_id,body):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/pages" % (self.server,profile_id)
+            post_page = self.session.post(request,data=json.dumps(body))
+            post_page.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return post_page.json()
 
     def getPage(self,profile_id,page_id):
         try:
@@ -245,8 +290,102 @@ class IFB():
             return delete_pages.json()
 
     ####################################
+    ## ELEMENT RESOURCES
+    ####################################
+
+    def postElements(self,profile_id,page_id,body):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/elements" % (self.server,profile_id,page_id)
+            post_elements = self.session.post(request,data=json.dumps(body))
+            post_elements.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return post_elements.json()
+
+    def getElement(self,profile_id,page_id,element_id):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/elements/%s" % (self.server,profile_id,page_id,element_id)
+            get_element = self.session.get(request)
+            get_element.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return get_element.json()
+
+    def getElements(self,profile_id,page_id,grammar=None,offset=0,limit=0):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/elements?offset=%s&limit=%s" % (self.server,profile_id,page_id,offset,limit)
+            if grammar != None:
+                request += "&fields=%s" % grammar
+            get_elements = self.session.get(request)
+            get_elements.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return get_elements.json()
+
+    def getAllElements(self,profile_id,page_id,grammar=None):
+        offset = 0
+        limit = 100
+        elements = []
+        
+        while True:
+            try:
+                request = self.getElements(profile_id,page_id,grammar,offset,limit)
+                if len(request) == 0:
+                    break
+                else:
+                    elements += request
+                    offset += limit
+                    print("%s elements fetched..." % len(elements))
+            except Exception as e:
+                print(e)
+                exit()
+
+        return elements
+
+    def deleteElement(self,profile_id,page_id,element_id):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/elements/%s" % (self.server,profile_id,page_id,element_id)
+            delete_element = self.session.delete(request)
+            delete_element.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return delete_element.json()
+
+    def deleteElements(self,profile_id,page_id,grammar=None,offset=0,limit=0):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/elements?offset=%s&limit=%s" % (self.server,profile_id,page_id,offset,limit)
+            if grammar != None:
+                request += "&fields=%s" % grammar
+            delete_elements = self.session.delete(request)
+            delete_elements.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return delete_elements.json()
+
+    ####################################
     ## OPTION LIST RESOURCES
     ####################################
+
+    def postOptionList(self,profile_id,body):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/optionlists" % (self.server,profile_id)
+            post_option_list = self.session.post(request,data=json.dumps(body))
+            post_option_list.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return post_option_list.json()
 
     def getOptionList(self,profile_id,option_list_id):
         try:
@@ -331,6 +470,17 @@ class IFB():
     ## OPTION RESOURCES
     ####################################
 
+    def postOptions(self,profile_id,page_id,body):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/optionlists/%s/options" % (self.server,profile_id,page_id)
+            post_options = self.session.post(request,data=json.dumps(body))
+            post_options.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return post_options.json()
+
     def getOption(self,profile_id,option_list_id,option_id):
         try:
             request = "https://%s/exzact/api/v60/profiles/%s/optionlists/%s/options/%s" % (self.server,profile_id,option_list_id,option_id)
@@ -400,91 +550,19 @@ class IFB():
             return delete_options.json()
 
     ####################################
-    ## ELEMENT RESOURCES
-    ####################################
-
-    def getElement(self,profile_id,page_id,element_id):
-        try:
-            request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/elements/%s" % (self.server,profile_id,page_id,element_id)
-            get_element = self.session.get(request)
-            get_element.raise_for_status()
-        except Exception as e:
-            print(e)
-            exit()
-        else:
-            return get_element.json()
-
-    def getElements(self,profile_id,page_id,grammar=None,offset=0,limit=0):
-        try:
-            request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/elements?offset=%s&limit=%s" % (self.server,profile_id,page_id,offset,limit)
-            if grammar != None:
-                request += "&fields=%s" % grammar
-            get_elements = self.session.get(request)
-            get_elements.raise_for_status()
-        except Exception as e:
-            print(e)
-            exit()
-        else:
-            return get_elements.json()
-
-    def getAllElements(self,profile_id,page_id,grammar=None):
-        offset = 0
-        limit = 100
-        elements = []
-        
-        while True:
-            try:
-                request = self.getElements(profile_id,page_id,grammar,offset,limit)
-                if len(request) == 0:
-                    break
-                else:
-                    elements += request
-                    offset += limit
-                    print("%s elements fetched..." % len(elements))
-            except Exception as e:
-                print(e)
-                exit()
-
-        return elements
-
-    def postElements(self,profile_id,page_id,body):
-        try:
-            request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/elements" % (self.server,profile_id,page_id)
-            post_elements = self.session.post(request,data=json.dumps(body))
-            post_elements.raise_for_status()
-        except Exception as e:
-            print(e)
-            exit()
-        else:
-            return post_elements.json()
-
-    def deleteElement(self,profile_id,page_id,element_id):
-        try:
-            request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/elements/%s" % (self.server,profile_id,page_id,element_id)
-            delete_element = self.session.delete(request)
-            delete_element.raise_for_status()
-        except Exception as e:
-            print(e)
-            exit()
-        else:
-            return delete_element.json()
-
-    def deleteElements(self,profile_id,page_id,grammar=None,offset=0,limit=0):
-        try:
-            request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/elements?offset=%s&limit=%s" % (self.server,profile_id,page_id,offset,limit)
-            if grammar != None:
-                request += "&fields=%s" % grammar
-            delete_elements = self.session.delete(request)
-            delete_elements.raise_for_status()
-        except Exception as e:
-            print(e)
-            exit()
-        else:
-            return delete_elements.json()
-
-    ####################################
     ## RECORD RESOURCES
     ####################################
+
+    def postRecords(self,profile_id,page_id,body):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/records" % (self.server,profile_id,page_id)
+            post_records = self.session.post(request,data=json.dumps(body))
+            post_records.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return post_records.json()
 
     def getRecord(self,profile_id,page_id,record_id):
         try:

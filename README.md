@@ -26,11 +26,11 @@ TO BE ADDED
 ### Profile
 | Method | Resource | Function |
 |:------:|:--------:|:--------:|
+| POST | Profile | postProfile |
 | GET | Profile | getProfile |
 | GET | Profiles | getProfiles |
 | GET | * | getAllProfiles |
 | GET | Company Info | getCompanyInfo |
-| POST | Profile | postProfile |
 | DELETE | Profile | deleteProfile |
 | DELETE | Profiles | deleteProfiles |
 
@@ -38,19 +38,34 @@ TO BE ADDED
 | Method | Resource | Function |
 |:------:|:--------:|:--------:|
 | POST | Users | postUsers |
+| GET | User | getUser |
+| GET | Users | getUsers |
+| GET | * | getAllUsers |
 
 ### Page
 | Method | Resource | Function |
 |:------:|:--------:|:--------:|
+| POST | Page | postPage |
 | GET | Page | getPage |
 | GET | Pages | getPages |
 | GET | * | getAllPages |
 | DELETE | Page | deletePage |
 | DELETE | Pages | deletePages |
 
+### Element
+| Method | Resource | Function |
+|:------:|:--------:|:--------:|
+| POST | Elements | postElements |
+| GET | Element | getElement |
+| GET | Elements | getElements |
+| GET | * | getAllElements |
+| DELETE | Element | deleteElement |
+| DELETE | Elements | deleteElements |
+
 ### Option List
 | Method | Resource | Function |
 |:------:|:--------:|:--------:|
+| POST | Option List | postOptionList |
 | GET | Option List | getOptionList |
 | GET | Option Lists | getOptionLists |
 | GET |  | getAllOptionLists |
@@ -61,25 +76,17 @@ TO BE ADDED
 ### Option
 | Method | Resource | Function |
 |:------:|:--------:|:--------:|
+| POST | Options | postOptions |
 | GET | Option | getOption |
 | GET | Options | getOptions |
 | GET | * | getAllOptions |
 | DELETE | Option | deleteOption |
 | DELETE | Options | deleteOptions |
 
-### Element
-| Method | Resource | Function |
-|:------:|:--------:|:--------:|
-| GET | Element | getElement |
-| GET | Elements | getElements |
-| GET | * | getAllElements |
-| POST | Elements | postElements |
-| DELETE | Element | deleteElement |
-| DELETE | Elements | deleteElements |
-
 ### Record
 | Method | Resource | Function |
 |:------:|:--------:|:--------:|
+| POST | Records | postRecords |
 | GET | Record | getRecord |
 | GET | Records | getRecords |
 | GET |   | getAllRecords |
