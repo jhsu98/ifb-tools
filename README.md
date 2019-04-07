@@ -28,9 +28,11 @@ TO BE ADDED
 |:------:|:--------:|:--------:|
 | GET | Profile | getProfile |
 | GET | Profiles | getProfiles |
-| GET |   | getAllProfiles |
+| GET | * | getAllProfiles |
 | GET | Company Info | getCompanyInfo |
 | POST | Profile | postProfile |
+| DELETE | Profile | deleteProfile |
+| DELETE | Profiles | deleteProfiles |
 
 ### User
 | Method | Resource | Function |
@@ -42,7 +44,9 @@ TO BE ADDED
 |:------:|:--------:|:--------:|
 | GET | Page | getPage |
 | GET | Pages | getPages |
-| GET |   | getAllPages |
+| GET | * | getAllPages |
+| DELETE | Page | deletePage |
+| DELETE | Pages | deletePages |
 
 ### Option List
 | Method | Resource | Function |
@@ -51,22 +55,27 @@ TO BE ADDED
 | GET | Option Lists | getOptionLists |
 | GET |  | getAllOptionLists |
 | DELETE | Option List | deleteOptionList |
-| Option List Dependencies | GET | ✓ |
+| DELETE | Option Lists | deleteOptionLists |
+| GET | Option List Dependencies | getOptionListDependencies |
 
 ### Option
 | Method | Resource | Function |
 |:------:|:--------:|:--------:|
 | GET | Option | getOption |
 | GET | Options | getOptions |
-| GET |  | getAllOptions |
+| GET | * | getAllOptions |
+| DELETE | Option | deleteOption |
+| DELETE | Options | deleteOptions |
 
 ### Element
 | Method | Resource | Function |
 |:------:|:--------:|:--------:|
 | GET | Element | getElement |
 | GET | Elements | getElements |
-| GET |   | getAllElements |
+| GET | * | getAllElements |
 | POST | Elements | postElements |
+| DELETE | Element | deleteElement |
+| DELETE | Elements | deleteElements |
 
 ### Record
 | Method | Resource | Function |
@@ -74,3 +83,5 @@ TO BE ADDED
 | GET | Record | getRecord |
 | GET | Records | getRecords |
 | GET |   | getAllRecords |
+| DELETE | Record | deleteRecord |
+| DELETE | Records | deleteRecords |

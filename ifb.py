@@ -123,6 +123,30 @@ class IFB():
         else:
             return post_profile.json()
 
+    def deleteProfile(self,profile_id):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s" % (self.server,profile_id)
+            delete_profile = self.session.delete(request)
+            delete_profile.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return delete_profile.json()
+
+    def deleteProfiles(self,grammar=None,offset=0,limit=100):
+        try:
+            request = "https://%s/exzact/api/v60/profiles?offset=%s&limit=%s" % (self.server,offset,limit)
+            if grammar != None:
+                request += "&fields=%s" % grammar
+            delete_profiles = self.session.delete(request)
+            delete_profiles.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return delete_profiles.json()
+
     ####################################
     ## USER RESOURCES
     ####################################
@@ -196,6 +220,30 @@ class IFB():
 
         return pages
 
+    def deletePage(self,profile_id,page_id):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/pages/%s" % (self.server,profile_id,page_id)
+            delete_page = self.session.delete(request)
+            delete_page.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return delete_page.json()
+
+    def deletePages(self,profile_id,grammar=None,offset=0,limit=100):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/pages?offset=%s&limit=%s" % (self.server,profile_id,offset,limit)
+            if grammar != None:
+                request += "&fields=%s" % grammar
+            delete_pages = self.session.delete(request)
+            delete_pages.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return delete_pages.json()
+
     ####################################
     ## OPTION LIST RESOURCES
     ####################################
@@ -247,13 +295,26 @@ class IFB():
     def deleteOptionList(self,profile_id,option_list_id):
         try:
             request = "https://%s/exzact/api/v60/profiles/%s/optionlists/%s" % (self.server,profile_id,option_list_id)
-            del_option_list = self.session.delete(request)
-            del_option_list.raise_for_status()
+            delete_option_list = self.session.delete(request)
+            delete_option_list.raise_for_status()
         except Exception as e:
             print(e)
             exit()
         else:
-            return del_option_list.json()
+            return delete_option_list.json()
+
+    def deleteOptionLists(self,profile_id,grammar=None,offset=0,limit=100):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/optionlists?offset=%s&limit=%s" % (self.server,profile_id,offset,limit)
+            if grammar != None:
+                request += "&fields=%s" % grammar
+            delete_option_lists = self.session.delete(request)
+            delete_option_lists.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return delete_option_lists.json()
 
     def getOptionListDependencies(self,profile_id,option_list_id):
         try:
@@ -314,6 +375,30 @@ class IFB():
         
         return options
 
+    def deleteOption(self,profile_id,option_list_id,option_id):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/optionlists/%s/options/%s" % (self.server,profile_id,option_list_id,option_id)
+            delete_option = self.session.delete(request)
+            delete_option.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return delete_option.json()
+
+    def deleteOptions(self,profile_id,option_list_id,grammar=None,offset=0,limit=1000):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/optionlists/%s/options?offset=%s&limit=%s" % (self.server,profile_id,option_list_id,offset,limit)
+            if grammar != None:
+                request += "&fields=%s" % grammar
+            delete_options = self.session.delete(request)
+            delete_options.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return delete_options.json()
+
     ####################################
     ## ELEMENT RESOURCES
     ####################################
@@ -373,6 +458,30 @@ class IFB():
         else:
             return post_elements.json()
 
+    def deleteElement(self,profile_id,page_id,element_id):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/elements/%s" % (self.server,profile_id,page_id,element_id)
+            delete_element = self.session.delete(request)
+            delete_element.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return delete_element.json()
+
+    def deleteElements(self,profile_id,page_id,grammar=None,offset=0,limit=0):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/elements?offset=%s&limit=%s" % (self.server,profile_id,page_id,offset,limit)
+            if grammar != None:
+                request += "&fields=%s" % grammar
+            delete_elements = self.session.delete(request)
+            delete_elements.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return delete_elements.json()
+
     ####################################
     ## RECORD RESOURCES
     ####################################
@@ -420,6 +529,30 @@ class IFB():
                 exit()
 
         return records
-        
+
+    def deleteRecord(self,profile_id,page_id,record_id):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/records/%s" % (self.server,profile_id,page_id,record_id)
+            delete_record = self.session.delete(request)
+            delete_record.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return delete_record.json()
+
+    def deleteRecords(self,profile_id,page_id,grammar=None,offset=0,limit=1000):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/records?offset=%s&limit=%s" % (self.server,profile_id,page_id,offset,limit)
+            if grammar != None:
+                request += "&fields=%s" % grammar
+            delete_records = self.session.delete(request)
+            delete_records.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return delete_records.json()
+
 if __name__ == "__main__":
     pass
