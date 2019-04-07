@@ -18,23 +18,59 @@ TO BE ADDED
 
 ## iFormBuilder API Calls
 
-| Resource | Method | Status |
-|:--------:|:------:|:------:|
-| Token | POST | ✓ |
-| Profile | GET | ✓ |
-| Profiles | GET | ✓ |
-| All Profiles | GET | ✓ |
-| Users | POST | ✓ |
-| Page | GET | ✓ |
-| Pages | GET | ✓ |
-| All Pages | GET | ✓ |
-| Option List | GET | ✓ |
-| Option List | DELETE | ✓ |
-| Option Lists | GET | ✓ |
-| All Option Lists | GET | ✓ |
+### Token Resource
+| Method | Resource | Function |
+|:------:|:--------:|:--------:|
+| POST | Token | requestAccessToken() |
+
+### Profile
+| Method | Resource | Function |
+|:------:|:--------:|:--------:|
+| GET | Profile | getProfile |
+| GET | Profiles | getProfiles |
+| GET |   | getAllProfiles |
+| GET | Company Info | getCompanyInfo |
+| POST | Profile | postProfile |
+
+### User
+| Method | Resource | Function |
+|:------:|:--------:|:--------:|
+| POST | Users | postUsers |
+
+### Page
+| Method | Resource | Function |
+|:------:|:--------:|:--------:|
+| GET | Page | getPage |
+| GET | Pages | getPages |
+| GET |   | getAllPages |
+
+### Option List
+| Method | Resource | Function |
+|:------:|:--------:|:--------:|
+| GET | Option List | getOptionList |
+| GET | Option Lists | getOptionLists |
+| GET |  | getAllOptionLists |
+| DELETE | Option List | deleteOptionList |
 | Option List Dependencies | GET | ✓ |
-| All Elements | GET | ✓ |
-| Elements | POST | ✓ |
-| Record | GET | ✓ |
-| Records | GET | ✓ |
-| All Records | GET | ✓ |
+
+### Option
+| Method | Resource | Function |
+|:------:|:--------:|:--------:|
+| GET | Option | getOption |
+| GET | Options | getOptions |
+| GET |  | getAllOptions |
+
+### Element
+| Method | Resource | Function |
+|:------:|:--------:|:--------:|
+| GET | Element | getElement |
+| GET | Elements | getElements |
+| GET |   | getAllElements |
+| POST | Elements | postElements |
+
+### Record
+| Method | Resource | Function |
+|:------:|:--------:|:--------:|
+| GET | Record | getRecord |
+| GET | Records | getRecords |
+| GET |   | getAllRecords |

@@ -43,7 +43,7 @@ def buildStructure(profile_id,page_id):
     return dcns
 
 def buildGrammar(structure,meta=True):
-    fields = "id,parent_record_id,parent_page_id,parent_element_id,created_date,created_by,created_location,created_device_id,modified_date,modified_by,modified_location,modified_device_id,server_modified_date," if meta == True else ""
+    fields = "" if meta == False else "id,parent_record_id,parent_page_id,parent_element_id,created_date,created_by,created_location,created_device_id,modified_date,modified_by,modified_location,modified_device_id,server_modified_date,"
 
     for i in range(len(structure)):
         if isinstance(structure[i],dict):

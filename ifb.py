@@ -101,6 +101,28 @@ class IFB():
         
         return profiles
 
+    def getCompanyInfo(self,profile_id):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/company_info" % (self.server,profile_id)
+            get_company_info = self.session.get(request)
+            get_company_info.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return get_company_info.json()
+
+    def postProfile(self,body):
+        try:
+            request = "https://%s/exzact/api/v60/profiles"
+            post_profile = self.session.post(request,data=json.dumps(body))
+            post_profile.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return post_profile.json()
+
     ####################################
     ## USER RESOURCES
     ####################################
@@ -245,35 +267,100 @@ class IFB():
             return get_option_list_dependencies.json()
 
     ####################################
+    ## OPTION RESOURCES
+    ####################################
+
+    def getOption(self,profile_id,option_list_id,option_id):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/optionlists/%s/options/%s" % (self.server,profile_id,option_list_id,option_id)
+            get_option = self.session.get(request)
+            get_option.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return get_option.json()
+
+    def getOptions(self,profile_id,option_list_id,grammar=None,offset=0,limit=1000):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/optionlists/%s/options?offset=%s&limit=%s" % (self.server,profile_id,option_list_id,offset,limit)
+            if grammar != None:
+                request += "&fields=%s" % grammar
+            get_options = self.session.get(request)
+            get_options.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return get_options.json()
+
+    def getAllOptions(self,profile_id,option_list_id,grammar=None):
+        offset = 0
+        limit = 1000
+        options = []
+
+        while True:
+            try:
+                request = self.getOptions(profile_id,option_list_id,grammar,offset,limit)
+                if len(request) == 0:
+                    break
+                else:
+                    options += request
+                    offset += limit
+                    print("%s options fetched..." % len(options))
+            except Exception as e:
+                print(e)
+                exit()
+        
+        return options
+
+    ####################################
     ## ELEMENT RESOURCES
     ####################################
+
+    def getElement(self,profile_id,page_id,element_id):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/elements/%s" % (self.server,profile_id,page_id,element_id)
+            get_element = self.session.get(request)
+            get_element.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return get_element.json()
+
+    def getElements(self,profile_id,page_id,grammar=None,offset=0,limit=0):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/elements?offset=%s&limit=%s" % (self.server,profile_id,page_id,offset,limit)
+            if grammar != None:
+                request += "&fields=%s" % grammar
+            get_elements = self.session.get(request)
+            get_elements.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return get_elements.json()
 
     def getAllElements(self,profile_id,page_id,grammar=None):
         offset = 0
         limit = 100
         elements = []
         
-        try:
-            while True:
-                try:
-                    request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/elements?offset=%s&limit=%s" % (self.server,profile_id,page_id,offset,limit)
-                    if grammar != None:
-                        request += "&fields=%s" % grammar
-                    get_elements = self.session.get(request)
-                except Exception as e:
-                    print(e)
-                    exit()
+        while True:
+            try:
+                request = self.getElements(profile_id,page_id,grammar,offset,limit)
+                if len(request) == 0:
+                    break
                 else:
-                    if len(get_elements.json()) == 0:
-                        break
-                    else:
-                        elements = elements + get_elements.json()
-                        offset = offset + limit
-        except Exception as e:
-            print(e)
-            exit()
-        else:
-            return elements
+                    elements += request
+                    offset += limit
+                    print("%s elements fetched..." % len(elements))
+            except Exception as e:
+                print(e)
+                exit()
+
+        return elements
 
     def postElements(self,profile_id,page_id,body):
         try:
