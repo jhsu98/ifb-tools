@@ -604,7 +604,7 @@ class IFB():
         try:
             request = "https://%s/exzact/api/v60/profiles/%s/optionlists/%s/options" % (self.server,profile_id,page_id)
             post_options = self.session.post(request,data=json.dumps(body))
-            post_options.raise_for_status()
+            # post_options.raise_for_status()
         except Exception as e:
             print(e)
             exit()
