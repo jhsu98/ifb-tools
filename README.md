@@ -50,6 +50,17 @@ TO BE ADDED
 | DELETE | User | deleteUser |
 | DELETE | Users | deleteUsers |
 
+| Method | Resource | Function |
+|:------:|:--------:|:--------:|
+| POST | UserPageAssignments | createUserPageAssignments |
+| GET | UserPageAssignment | readUserPageAssignment |
+| GET | UserPageAssignments | readUserPageAssignments |
+| GET | * | readAllUserPageAssignments |
+| PUT | UserPageAssignment | updateUserPageAssignment |
+| PUT | UserPageAssignments | updateUserPageAssignments |
+| DELETE | UserPageAssignment | deleteUserPageAssignment |
+| DELETE | UserPageAssignments | deleteUserPageAssignments |
+
 ### Page
 | Method | Resource | Function |
 |:------:|:--------:|:--------:|
@@ -61,6 +72,17 @@ TO BE ADDED
 | PUT | Pages | updatePages |
 | DELETE | Page | deletePage |
 | DELETE | Pages | deletePages |
+
+| Method | Resource | Function |
+|:------:|:--------:|:--------:|
+| POST | PageAssignments | createPageAssignments |
+| GET | PageAssignment | readPageAssignment |
+| GET | PageAssignments | readPageAssignments |
+| GET | * | readAllPageAssignments |
+| PUT | PageAssignment | updatePageAssignment |
+| PUT | PageAssignments | updatePageAssignments |
+| DELETE | PageAssignment | deletePageAssignment |
+| DELETE | PageAssignments | deletePageAssignments |
 
 ### Element
 | Method | Resource | Function |

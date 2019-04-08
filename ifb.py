@@ -264,6 +264,109 @@ class IFB():
         else:
             return delete_users.json()
 
+    def createUserPageAssignments(self,profile_id,user_id,body):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/users/%s/page_assignments" % (self.server,profile_id,user_id)
+            post_user_page_assignment = self.session.post(request,data=json.dumps(body))
+            post_user_page_assignment.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return post_user_page_assignment.json()
+
+    def readUserPageAssignment(self,profile_id,user_id,page_id):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/users/%s/page_assignments/%s" % (self.server,profile_id,user_id,page_id)
+            get_user_page_assignment = self.session.get(request)
+            get_user_page_assignment.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return get_user_page_assignment.json()
+
+    def readUserPageAssignments(self,profile_id,user_id,grammar=None,offset=0,limit=100):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/users/%s/page_assignments?offset=%s&limit=%s" % (self.server,profile_id,user_id,offset,limit)
+            if grammar != None:
+                request += "&fields=%s" % grammar
+            get_user_page_assignments = self.session.get(request)
+            get_user_page_assignments.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return get_user_page_assignments.json()
+
+    def readAllUserPageAssignments(self,profile_id,user_id,grammar=None):
+        offset = 0
+        limit = 100
+        user_page_assignments = []
+
+        while True:
+            try:
+                request = self.readUserPageAssignments(profile_id,user_id,grammar,offset,limit)
+                if len(request) == 0:
+                    break
+                else:
+                    user_page_assignments += request
+                    offset += limit
+                    print("%s page assignments fetched..." % len(user_page_assignments))
+            except Exception as e:
+                print(e)
+                exit()
+
+        return user_page_assignments
+
+    def updateUserPageAssignment(self,profile_id,user_id,page_id,body):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/users/%s/page_assignments/%s" % (self.server,profile_id,user_id,page_id)
+            put_user_page_assignment = self.session.put(request,data=json.dumps(body))
+            put_user_page_assignment.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return put_user_page_assignment.json()
+
+    def updateUserPageAssignments(self,profile_id,user_id,body,grammar=None,offset=0,limit=100):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/users/%s/page_assignments?offset=%s&limit=%s" % (self.server,profile_id,user_id,offset,limit)
+            if grammar != None:
+                request += "&fields=%s" % grammar
+            put_user_page_assignments = self.session.put(request,data=json.dumps(body))
+            put_user_page_assignments.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return put_user_page_assignments.json()
+
+    def deleteUserPageAssignment(self,profile_id,user_id,page_id):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/users/%s/page_assignments/%s" % (self.server,profile_id,user_id,page_id)
+            delete_user_page_assignment = self.session.delete(request)
+            delete_user_page_assignment.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return delete_user_page_assignment.json()
+
+    def deleteUserPageAssignments(self,profile_id,user_id,grammar=None,offset=0,limit=100):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/users/%s/page_assignments?offset=%s&limit=%s" % (self.server,profile_id,user_id,offset,limit)
+            if grammar != None:
+                request += "&fields=%s" % grammar
+            delete_user_page_assignments = self.session.delete(request)
+            delete_user_page_assignments.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return delete_user_page_assignments.json()
+
     ####################################
     ## PAGE RESOURCES
     ####################################
@@ -370,6 +473,109 @@ class IFB():
             exit()
         else:
             return delete_pages.json()
+
+    def createPageAssignments(self,profile_id,page_id,body):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/assignments" % (self.server,profile_id,page_id)
+            post_page_assignments = self.session.post(request,data=json.dumps(body))
+            post_page_assignments.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return post_page_assignments.json()
+
+    def readPageAssignment(self,profile_id,page_id,user_id):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/assignments/%s" % (self.server,profile_id,page_id,user_id)
+            get_page_assignment = self.session.get(request)
+            get_page_assignment.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return get_page_assignment.json()
+
+    def readPageAssignments(self,profile_id,page_id,grammar=None,offset=0,limit=100):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/assignments?offset=%s&limit=%s" % (self.server,profile_id,page_id,offset,limit)
+            if grammar != None:
+                request += "&fields=%s" % grammar
+            get_page_assignments = self.session.get(request)
+            get_page_assignments.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return get_page_assignments.json()
+
+    def readAllPageAssignments(self,profile_id,page_id,grammar=None):
+        offset = 0
+        limit = 100
+        page_assignments = []
+
+        while True:
+            try:
+                request = self.readPageAssignments(profile_id,page_id,grammar,offset,limit)
+                if len(request) == 0:
+                    break
+                else:
+                    page_assignments += request
+                    offset += limit
+                    print("%s page assignments fetched..." % len(page_assignments))
+            except Exception as e:
+                print(e)
+                exit()
+
+        return page_assignments
+
+    def updatePageAssignment(self,profile_id,page_id,user_id,body):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/assignments/%s" % (self.server,profile_id,page_id,user_id)
+            put_page_assignment = self.session.put(request,data=json.dumps(body))
+            put_page_assignment.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return put_page_assignment.json()
+
+    def updatePageAssignments(self,profile_id,page_id,body,grammar=None,offset=0,limit=100):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/assignments?offset=%s&limit=%s" % (self.server,profile_id,page_id,offset,limit)
+            if grammar != None:
+                request += "&fields=%s" % grammar
+            put_page_assignments = self.session.put(request,data=json.dumps(body))
+            put_page_assignments.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return put_page_assignments.json()
+
+    def deletePageAssignment(self,profile_id,page_id,user_id):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/assignments/%s" % (self.server,profile_id,page_id,user_id)
+            delete_page_assignment = self.session.delete(request)
+            delete_page_assignment.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return delete_page_assignment.json()
+
+    def deletePageAssignments(self,profile_id,page_id,grammar=None,offset=0,limit=100):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/assignments?offset=%s&limit=%s" % (self.server,profile_id,page_id,offset,limit)
+            if grammar != None:
+                request += "&fields=%s" % grammar
+            delete_page_assignments = self.session.delete(request)
+            delete_page_assignments.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return delete_page_assignments.json()
 
     ####################################
     ## ELEMENT RESOURCES
