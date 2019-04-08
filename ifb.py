@@ -53,6 +53,17 @@ class IFB():
             self.access_token = request_token.json()['access_token']
             self.session.headers.update({ 'Authorization': "Bearer %s" % self.access_token })
 
+    def readAccessToken(self):
+        try:
+            request = "https://%s/exzact/api/v60/token" % (self.server)
+            get_access_token = self.session.get(request)
+            get_access_token.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return get_access_token.json()
+
     ####################################
     ## PROFILE RESOURCES
     ####################################
@@ -123,30 +134,6 @@ class IFB():
         else:
             return put_profile.json()
 
-    def deleteProfile(self,profile_id):
-        try:
-            request = "https://%s/exzact/api/v60/profiles/%s" % (self.server,profile_id)
-            delete_profile = self.session.delete(request)
-            delete_profile.raise_for_status()
-        except Exception as e:
-            print(e)
-            exit()
-        else:
-            return delete_profile.json()
-
-    def deleteProfiles(self,grammar=None,offset=0,limit=100):
-        try:
-            request = "https://%s/exzact/api/v60/profiles?offset=%s&limit=%s" % (self.server,offset,limit)
-            if grammar != None:
-                request += "&fields=%s" % grammar
-            delete_profiles = self.session.delete(request)
-            delete_profiles.raise_for_status()
-        except Exception as e:
-            print(e)
-            exit()
-        else:
-            return delete_profiles.json()
-
     def readCompanyInfo(self,profile_id):
         try:
             request = "https://%s/exzact/api/v60/profiles/%s/company_info" % (self.server,profile_id)
@@ -158,6 +145,17 @@ class IFB():
         else:
             return get_company_info.json()
 
+    def updateCompanyInfo(self,profile_id,body):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/company_info" % (self.server,profile_id)
+            put_company_info = self.session.put(request,data=json.dumps(body))
+            put_company_info.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return put_company_info.json()
+
     ####################################
     ## USER RESOURCES
     ####################################
@@ -165,6 +163,7 @@ class IFB():
     def createUsers(self,profile_id,body):
         try:
             request = "https://%s/exzact/api/v60/profiles/%s/users" % (self.server,profile_id)
+            print(body)
             post_users = self.session.post(request,data=json.dumps(body))
             post_users.raise_for_status()
         except Exception as e:

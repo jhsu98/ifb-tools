@@ -80,7 +80,7 @@ if __name__ == "__main__":
 
     # Load JSON file
     filename = input("Select the JSON file to load: ")
-    if filename.split(".")[-1].lower() != "json":
+    if filename.split(".")[-1].lower().strip() == "json":
         try:
             f = open(filename)
             data = json.load(f)
