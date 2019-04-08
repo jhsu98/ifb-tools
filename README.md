@@ -26,77 +26,90 @@ TO BE ADDED
 ### Profile
 | Method | Resource | Function |
 |:------:|:--------:|:--------:|
-| POST | Profile | postProfile |
-| GET | Profile | getProfile |
-| GET | Profiles | getProfiles |
-| GET | * | getAllProfiles |
+| POST | Profile | createProfile |
+| GET | Profile | readProfile |
+| GET | Profiles | readProfiles |
+| GET | * | readAllProfiles |
+| PUT | Profile | updateProfile |
 | DELETE | Profile | deleteProfile |
 | DELETE | Profiles | deleteProfiles |
 
 | Method | Resource | Function |
 |:------:|:--------:|:--------:|
-| GET | Company Info | getCompanyInfo |
+| GET | Company Info | readCompanyInfo |
 
 ### User
 | Method | Resource | Function |
 |:------:|:--------:|:--------:|
-| POST | Users | postUsers |
-| GET | User | getUser |
-| GET | Users | getUsers |
-| GET | * | getAllUsers |
+| POST | Users | createUsers |
+| GET | User | readUser |
+| GET | Users | readUsers |
+| GET | * | readAllUsers |
+| PUT | User | updateUser |
+| PUT | Users | updateUsers |
 | DELETE | User | deleteUser |
 | DELETE | Users | deleteUsers |
 
 ### Page
 | Method | Resource | Function |
 |:------:|:--------:|:--------:|
-| POST | Page | postPage |
-| GET | Page | getPage |
-| GET | Pages | getPages |
-| GET | * | getAllPages |
+| POST | Page | createPage |
+| GET | Page | readPage |
+| GET | Pages | readPages |
+| GET | * | readAllPages |
+| PUT | Page | updatePage |
+| PUT | Pages | updatePages |
 | DELETE | Page | deletePage |
 | DELETE | Pages | deletePages |
 
 ### Element
 | Method | Resource | Function |
 |:------:|:--------:|:--------:|
-| POST | Elements | postElements |
-| GET | Element | getElement |
-| GET | Elements | getElements |
-| GET | * | getAllElements |
+| POST | Elements | createElements |
+| GET | Element | readElement |
+| GET | Elements | readElements |
+| GET | * | readAllElements |
+| PUT | Element | updateElement |
+| PUT | Elements | updateElements |
 | DELETE | Element | deleteElement |
 | DELETE | Elements | deleteElements |
 
 ### Option List
 | Method | Resource | Function |
 |:------:|:--------:|:--------:|
-| POST | Option List | postOptionList |
-| GET | Option List | getOptionList |
-| GET | Option Lists | getOptionLists |
-| GET |  | getAllOptionLists |
+| POST | Option List | createOptionList |
+| GET | Option List | readOptionList |
+| GET | Option Lists | readOptionLists |
+| GET |  | readAllOptionLists |
+| PUT | Option List | updateOptionList |
+| PUT | Option Lists | updateOptionLists |
 | DELETE | Option List | deleteOptionList |
 | DELETE | Option Lists | deleteOptionLists |
 
 | Method | Resource | Function |
 |:------:|:--------:|:--------:|
-| GET | Option List Dependencies | getOptionListDependencies |
+| GET | Option List Dependencies | readOptionListDependencies |
 
 ### Option
 | Method | Resource | Function |
 |:------:|:--------:|:--------:|
-| POST | Options | postOptions |
-| GET | Option | getOption |
-| GET | Options | getOptions |
-| GET | * | getAllOptions |
+| POST | Options | createOptions |
+| GET | Option | readOption |
+| GET | Options | readOptions |
+| GET | * | readAllOptions |
+| PUT | Option | updateOption |
+| PUT | Options | updateOptions |
 | DELETE | Option | deleteOption |
 | DELETE | Options | deleteOptions |
 
 ### Record
 | Method | Resource | Function |
 |:------:|:--------:|:--------:|
-| POST | Records | postRecords |
-| GET | Record | getRecord |
-| GET | Records | getRecords |
-| GET |   | getAllRecords |
+| POST | Records | createRecords |
+| GET | Record | readRecord |
+| GET | Records | readRecords |
+| GET | * | readAllRecords |
+| PUT | Record | updateRecord |
+| PUT | Records | updateRecords |
 | DELETE | Record | deleteRecord |
 | DELETE | Records | deleteRecords |

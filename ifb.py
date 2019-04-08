@@ -57,9 +57,9 @@ class IFB():
     ## PROFILE RESOURCES
     ####################################
 
-    def postProfile(self,body):
+    def createProfile(self,body):
         try:
-            request = "https://%s/exzact/api/v60/profiles"
+            request = "https://%s/exzact/api/v60/profiles" % self.server
             post_profile = self.session.post(request,data=json.dumps(body))
             post_profile.raise_for_status()
         except Exception as e:
@@ -68,7 +68,7 @@ class IFB():
         else:
             return post_profile.json()
 
-    def getProfile(self,profile_id):
+    def readProfile(self,profile_id):
         try:
             request = "https://%s/exzact/api/v60/profiles/%s" % (self.server,profile_id)
             get_profile = self.session.get(request)
@@ -79,7 +79,7 @@ class IFB():
         else:
             return get_profile.json()
 
-    def getProfiles(self,grammar=None,offset=0,limit=100):
+    def readProfiles(self,grammar=None,offset=0,limit=100):
         try:
             request = "https://%s/exzact/api/v60/profiles?offset=%s&limit=%s" % (self.server,offset,limit)
             if grammar != None:
@@ -92,14 +92,14 @@ class IFB():
         else:
             return get_profiles.json()
 
-    def getAllProfiles(self,grammar=None):
+    def readAllProfiles(self,grammar=None):
         offset = 0
         limit = 100
         profiles = []
 
         while True:
             try:
-                request = self.getProfiles(grammar,offset,limit)
+                request = self.readProfiles(grammar,offset,limit)
                 if len(request) == 0:
                     break
                 else:
@@ -111,6 +111,17 @@ class IFB():
                 exit()
         
         return profiles
+
+    def updateProfile(self,profile_id,body):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s" % (self.server,profile_id)
+            put_profile = self.session.put(request,data=json.dumps(body))
+            put_profile.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return put_profile.json()
 
     def deleteProfile(self,profile_id):
         try:
@@ -136,7 +147,7 @@ class IFB():
         else:
             return delete_profiles.json()
 
-    def getCompanyInfo(self,profile_id):
+    def readCompanyInfo(self,profile_id):
         try:
             request = "https://%s/exzact/api/v60/profiles/%s/company_info" % (self.server,profile_id)
             get_company_info = self.session.get(request)
@@ -151,7 +162,7 @@ class IFB():
     ## USER RESOURCES
     ####################################
 
-    def postUsers(self,profile_id,body):
+    def createUsers(self,profile_id,body):
         try:
             request = "https://%s/exzact/api/v60/profiles/%s/users" % (self.server,profile_id)
             post_users = self.session.post(request,data=json.dumps(body))
@@ -162,7 +173,7 @@ class IFB():
         else:
             return post_users.json()
 
-    def getUser(self,profile_id,user_id):
+    def readUser(self,profile_id,user_id):
         try:
             request = "https://%s/exzact/api/v60/profiles/%s/users/%s" % (self.server,profile_id,user_id)
             get_user = self.session.get(request)
@@ -173,7 +184,7 @@ class IFB():
         else:
             return get_user.json()
 
-    def getUsers(self,profile_id,grammar=None,offset=0,limit=100):
+    def readUsers(self,profile_id,grammar=None,offset=0,limit=100):
         try:
             request = "https://%s/exzact/api/v60/profiles/%s/users?offset=%s&limit=%s" % (self.server,profile_id,offset,limit)
             if grammar != None:
@@ -186,14 +197,14 @@ class IFB():
         else:
             return get_users.json()
 
-    def getAllUsers(self,profile_id,grammar=None):
+    def readAllUsers(self,profile_id,grammar=None):
         offset = 0
         limit = 100
         users = []
 
         while True:
             try:
-                request = self.getUsers(profile_id,grammar,offset,limit)
+                request = self.readUsers(profile_id,grammar,offset,limit)
                 if len(request) == 0:
                     break
                 else:
@@ -205,6 +216,30 @@ class IFB():
                 exit()
 
         return users
+
+    def updateUser(self,profile_id,user_id,body):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/users/%s" % (self.server,profile_id,user_id)
+            put_user = self.session.put(request,data=json.dumps(body))
+            put_user.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return put_user.json()
+
+    def updateUsers(self,profile_id,body,grammar=None,offset=0,limit=100):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/users?offset=%s&limit=%s" % (self.server,profile_id,offset,limit)
+            if grammar != None:
+                request += "&fields=%s" % grammar
+            put_users = self.session.put(request,data=json.dumps(body))
+            put_users.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return put_users.json()
 
     def deleteUser(self,profile_id,user_id):
         try:
@@ -234,7 +269,7 @@ class IFB():
     ## PAGE RESOURCES
     ####################################
 
-    def postPage(self,profile_id,body):
+    def createPage(self,profile_id,body):
         try:
             request = "https://%s/exzact/api/v60/profiles/%s/pages" % (self.server,profile_id)
             post_page = self.session.post(request,data=json.dumps(body))
@@ -245,7 +280,7 @@ class IFB():
         else:
             return post_page.json()
 
-    def getPage(self,profile_id,page_id):
+    def readPage(self,profile_id,page_id):
         try:
             request = "https://%s/exzact/api/v60/profiles/%s/pages/%s" % (self.server,profile_id,page_id)
             get_page = self.session.get(request)
@@ -256,7 +291,7 @@ class IFB():
         else:
             return get_page.json()
 
-    def getPages(self,profile_id,grammar=None,offset=0,limit=100):
+    def readPages(self,profile_id,grammar=None,offset=0,limit=100):
         try:
             request = "https://%s/exzact/api/v60/profiles/%s/pages?offset=%s&limit=%s" % (self.server,profile_id,offset,limit)
             if grammar != None:
@@ -269,14 +304,14 @@ class IFB():
         else:
             return get_pages.json()
 
-    def getAllPages(self,profile_id,grammar=None):
+    def readAllPages(self,profile_id,grammar=None):
         offset = 0
         limit = 100
         pages = []
 
         while True:
             try:
-                request = self.getPages(profile_id,grammar,offset,limit)
+                request = self.readPages(profile_id,grammar,offset,limit)
                 if len(request) == 0:
                     break
                 else:
@@ -288,6 +323,30 @@ class IFB():
                 exit()
 
         return pages
+
+    def updatePage(self,profile_id,page_id,body):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/pages/%s" % (self.server,profile_id,page_id)
+            put_page = self.session.put(request,data=json.dumps(body))
+            put_page.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return put_page.json()
+
+    def updatePages(self,profile_id,body,grammar=None,offset=0,limit=100):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/pages?offset=%s&limit=%s" % (self.server,profile_id,offset,limit)
+            if grammar != None:
+                request += "&fields=%s" % grammar
+            put_pages = self.session.put(request,data=json.dumps(body))
+            put_pages.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return put_pages.json()
 
     def deletePage(self,profile_id,page_id):
         try:
@@ -317,7 +376,7 @@ class IFB():
     ## ELEMENT RESOURCES
     ####################################
 
-    def postElements(self,profile_id,page_id,body):
+    def createElements(self,profile_id,page_id,body):
         try:
             request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/elements" % (self.server,profile_id,page_id)
             post_elements = self.session.post(request,data=json.dumps(body))
@@ -328,7 +387,7 @@ class IFB():
         else:
             return post_elements.json()
 
-    def getElement(self,profile_id,page_id,element_id):
+    def readElement(self,profile_id,page_id,element_id):
         try:
             request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/elements/%s" % (self.server,profile_id,page_id,element_id)
             get_element = self.session.get(request)
@@ -339,7 +398,7 @@ class IFB():
         else:
             return get_element.json()
 
-    def getElements(self,profile_id,page_id,grammar=None,offset=0,limit=0):
+    def readElements(self,profile_id,page_id,grammar=None,offset=0,limit=0):
         try:
             request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/elements?offset=%s&limit=%s" % (self.server,profile_id,page_id,offset,limit)
             if grammar != None:
@@ -352,14 +411,14 @@ class IFB():
         else:
             return get_elements.json()
 
-    def getAllElements(self,profile_id,page_id,grammar=None):
+    def readAllElements(self,profile_id,page_id,grammar=None):
         offset = 0
         limit = 100
         elements = []
         
         while True:
             try:
-                request = self.getElements(profile_id,page_id,grammar,offset,limit)
+                request = self.readElements(profile_id,page_id,grammar,offset,limit)
                 if len(request) == 0:
                     break
                 else:
@@ -371,6 +430,30 @@ class IFB():
                 exit()
 
         return elements
+
+    def updateElement(self,profile_id,page_id,element_id,body):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/elements/%s" % (self.server,profile_id,page_id,element_id)
+            put_element = self.session.put(request,data=json.dumps(body))
+            put_element.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return put_element.json()
+
+    def updateElements(self,profile_id,page_id,body,grammar=None,offset=0,limit=100):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/elements?offset=%s&limit=%s" % (self.server,profile_id,page_id,offset,limit)
+            if grammar != None:
+                request += "&fields=%s" % grammar
+            put_elements = self.session.put(request,data=json.dumps(body))
+            put_elements.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return put_elements.json()
 
     def deleteElement(self,profile_id,page_id,element_id):
         try:
@@ -400,7 +483,7 @@ class IFB():
     ## OPTION LIST RESOURCES
     ####################################
 
-    def postOptionList(self,profile_id,body):
+    def createOptionList(self,profile_id,body):
         try:
             request = "https://%s/exzact/api/v60/profiles/%s/optionlists" % (self.server,profile_id)
             post_option_list = self.session.post(request,data=json.dumps(body))
@@ -411,7 +494,7 @@ class IFB():
         else:
             return post_option_list.json()
 
-    def getOptionList(self,profile_id,option_list_id):
+    def readOptionList(self,profile_id,option_list_id):
         try:
             request = "https://%s/exzact/api/v60/profiles/%s/optionlists/%s" % (self.server,profile_id,option_list_id)
             get_option_list = self.session.get(request)
@@ -422,7 +505,7 @@ class IFB():
         else:
             return get_option_list.json()
 
-    def getOptionLists(self,profile_id,grammar=None,offset=0,limit=100):
+    def readOptionLists(self,profile_id,grammar=None,offset=0,limit=100):
         try:
             request = "https://%s/exzact/api/v60/profiles/%s/optionlists?offset=%s&limit=%s" % (self.server,profile_id,offset,limit)
             if grammar != None:
@@ -435,14 +518,14 @@ class IFB():
         else:
             return get_option_lists.json()
 
-    def getAllOptionLists(self,profile_id,grammar=None):
+    def readAllOptionLists(self,profile_id,grammar=None):
         offset = 0
         limit = 100
         option_lists = []
 
         while True:
             try:
-                request = self.getOptionLists(profile_id,grammar,offset,limit)
+                request = self.readOptionLists(profile_id,grammar,offset,limit)
                 if len(request) == 0:
                     break
                 else:
@@ -454,6 +537,30 @@ class IFB():
                 exit()
         
         return option_lists
+
+    def updateOptionList(self,profile_id,option_list_id,element_id,body):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/optionlists/%s" % (self.server,profile_id,option_list_id)
+            put_option_list = self.session.put(request,data=json.dumps(body))
+            put_option_list.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return put_option_list.json()
+
+    def updateOptionLists(self,profile_id,body,grammar=None,offset=0,limit=100):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/optionlists?offset=%s&limit=%s" % (self.server,profile_id,offset,limit)
+            if grammar != None:
+                request += "&fields=%s" % grammar
+            put_option_lists = self.session.put(request,data=json.dumps(body))
+            put_option_lists.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return put_option_lists.json()
 
     def deleteOptionList(self,profile_id,option_list_id):
         try:
@@ -479,7 +586,7 @@ class IFB():
         else:
             return delete_option_lists.json()
 
-    def getOptionListDependencies(self,profile_id,option_list_id):
+    def readOptionListDependencies(self,profile_id,option_list_id):
         try:
             request = "https://%s/exzact/api/v60/profiles/%s/optionlists/%s/dependencies" % (self.server,profile_id,option_list_id)
             get_option_list_dependencies = self.session.get(request)
@@ -494,7 +601,7 @@ class IFB():
     ## OPTION RESOURCES
     ####################################
 
-    def postOptions(self,profile_id,page_id,body):
+    def createOptions(self,profile_id,page_id,body):
         try:
             request = "https://%s/exzact/api/v60/profiles/%s/optionlists/%s/options" % (self.server,profile_id,page_id)
             post_options = self.session.post(request,data=json.dumps(body))
@@ -505,7 +612,7 @@ class IFB():
         else:
             return post_options.json()
 
-    def getOption(self,profile_id,option_list_id,option_id):
+    def readOption(self,profile_id,option_list_id,option_id):
         try:
             request = "https://%s/exzact/api/v60/profiles/%s/optionlists/%s/options/%s" % (self.server,profile_id,option_list_id,option_id)
             get_option = self.session.get(request)
@@ -516,7 +623,7 @@ class IFB():
         else:
             return get_option.json()
 
-    def getOptions(self,profile_id,option_list_id,grammar=None,offset=0,limit=1000):
+    def readOptions(self,profile_id,option_list_id,grammar=None,offset=0,limit=1000):
         try:
             request = "https://%s/exzact/api/v60/profiles/%s/optionlists/%s/options?offset=%s&limit=%s" % (self.server,profile_id,option_list_id,offset,limit)
             if grammar != None:
@@ -529,14 +636,14 @@ class IFB():
         else:
             return get_options.json()
 
-    def getAllOptions(self,profile_id,option_list_id,grammar=None):
+    def readAllOptions(self,profile_id,option_list_id,grammar=None):
         offset = 0
         limit = 1000
         options = []
 
         while True:
             try:
-                request = self.getOptions(profile_id,option_list_id,grammar,offset,limit)
+                request = self.readOptions(profile_id,option_list_id,grammar,offset,limit)
                 if len(request) == 0:
                     break
                 else:
@@ -548,6 +655,30 @@ class IFB():
                 exit()
         
         return options
+
+    def updateOption(self,profile_id,option_list_id,option_id,element_id,body):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/optionlists/%s/options/%s" % (self.server,profile_id,option_list_id,option_id)
+            put_option = self.session.put(request,data=json.dumps(body))
+            put_option.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return put_option.json()
+
+    def updateOptions(self,profile_id,option_list_id,body,grammar=None,offset=0,limit=1000):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/optionlists/%s/options?offset=%s&limit=%s" % (self.server,profile_id,option_list_id,offset,limit)
+            if grammar != None:
+                request += "&fields=%s" % grammar
+            put_options = self.session.put(request,data=json.dumps(body))
+            put_options.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return put_options.json()
 
     def deleteOption(self,profile_id,option_list_id,option_id):
         try:
@@ -577,7 +708,7 @@ class IFB():
     ## RECORD RESOURCES
     ####################################
 
-    def postRecords(self,profile_id,page_id,body):
+    def createRecords(self,profile_id,page_id,body):
         try:
             request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/records" % (self.server,profile_id,page_id)
             post_records = self.session.post(request,data=json.dumps(body))
@@ -588,7 +719,7 @@ class IFB():
         else:
             return post_records.json()
 
-    def getRecord(self,profile_id,page_id,record_id):
+    def readRecord(self,profile_id,page_id,record_id):
         try:
             request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/records/%s" % (self.server,profile_id,page_id,record_id)
             get_record = self.session.get(request)
@@ -599,7 +730,7 @@ class IFB():
         else:
             return get_record.json()
 
-    def getRecords(self,profile_id,page_id,grammar=None,offset=0,limit=1000):
+    def readRecords(self,profile_id,page_id,grammar=None,offset=0,limit=1000):
         try:
             request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/records?offset=%s&limit=%s" % (self.server,profile_id,page_id,offset,limit)
             if grammar != None:
@@ -612,14 +743,14 @@ class IFB():
         else:
             return get_records.json()
 
-    def getAllRecords(self,profile_id,page_id,grammar=None):
+    def readAllRecords(self,profile_id,page_id,grammar=None):
         offset = 0
         limit = 1000
         records = []
 
         while True:
             try:
-                request = self.getRecords(profile_id,page_id,grammar,offset,limit)
+                request = self.readRecords(profile_id,page_id,grammar,offset,limit)
                 if len(request) == 0:
                     break
                 else:
@@ -631,6 +762,30 @@ class IFB():
                 exit()
 
         return records
+
+    def updateRecord(self,profile_id,page_id,record_id,body):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/records/%s" % (self.server,profile_id,page_id,record_id)
+            put_record = self.session.put(request,data=json.dumps(body))
+            put_record.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return put_record.json()
+
+    def updateRecords(self,profile_id,page_id,body,grammar=None,offset=0,limit=1000):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/records?offset=%s&limit=%s" % (self.server,profile_id,page_id,offset,limit)
+            if grammar != None:
+                request += "&fields=%s" % grammar
+            put_records = self.session.put(request,data=json.dumps(body))
+            put_records.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return put_records.json()
 
     def deleteRecord(self,profile_id,page_id,record_id):
         try:

@@ -13,7 +13,7 @@ def main(ifb,profile_id,page_id):
     fields = buildGrammar(structure,False)
 
     print("Fetching records...")
-    data = ifb.getAllRecords(profile_id,page_id,fields)
+    data = ifb.readAllRecords(profile_id,page_id,fields)
 
     if len(data) > 0:
         name = "%s-%s-%s.json" % (profile_id,page_id,int(time.time()))
@@ -28,7 +28,7 @@ def main(ifb,profile_id,page_id):
 def buildStructure(profile_id,page_id):
     dcns = []
 
-    elements = ifb.getAllElements(profile_id,page_id,"name,data_type,data_size")
+    elements = ifb.readAllElements(profile_id,page_id,"name,data_type,data_size")
 
     for i in range(len(elements)):
         if elements[i]['data_type'] in (16,17,35):
@@ -63,7 +63,7 @@ if __name__ == "__main__":
     parser.add_argument('--page-id', dest='page_id', help='Page ID to Add Elements')
 
     args = parser.parse_args()
-    server = args.servername or "zeriontest.iformbuilder.com"
+    server = args.servername or ""
     client_id = args.client_id or ""
     client_secret = args.client_secret or ""
 
@@ -71,7 +71,7 @@ if __name__ == "__main__":
 
     if args.profile_id == None:
         print('Retrieving Profiles for Server: %s' % server)
-        profiles = ifb.getAllProfiles()
+        profiles = ifb.readAllProfiles()
 
         profile_dict = {}
 
@@ -90,7 +90,7 @@ if __name__ == "__main__":
 
     if args.page_id == None:
         print("Retrieving Pages for Profile: %s..." % selected_profile)
-        pages = ifb.getAllPages(selected_profile,"id,name,label")
+        pages = ifb.readAllPages(selected_profile,"id,name,label")
 
         pages_dict = {}
 
