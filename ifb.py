@@ -577,6 +577,89 @@ class IFB():
         else:
             return delete_page_assignments.json()
 
+    def createPageEndpoint(self,profile_id,page_id,body):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/http_callbacks" % (self.server,profile_id,page_id)
+            post_http_callback = self.session.post(request,data=json.dumps(body))
+            post_http_callback.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return post_http_callback.json()
+
+    def readPageEndpoint(self,profile_id,page_id,endpoint_id):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/http_callbacks/%s" % (self.server,profile_id,page_id,endpoint_id)
+            get_http_callback = self.session.get(request)
+            get_http_callback.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return get_http_callback.json()
+    
+    def readPageEndpoints(self,profile_id,page_id,grammar=None,offset=0,limit=100):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/http_callbacks?offset=%s&limit=%s" % (self.server,profile_id,page_id,offset,limit)
+            if grammar != None:
+                request += "&fields=%s" % grammar
+            get_http_callbacks = self.session.get(request)
+            get_http_callbacks.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return get_http_callbacks.json()
+
+    def updatePageEndpoint(self,profile_id,page_id,endpoint_id,body):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/http_callbacks/%s" % (self.server,profile_id,page_id,endpoint_id)
+            put_http_callback = self.session.put(request,data=json.dumps(body))
+            put_http_callback.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return put_http_callback.json()
+    
+    def updatePageEndpoints(self,profile_id,page_id,body,grammar=None,offset=0,limit=100):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/http_callbacks?offset=%s&limit=%s" % (self.server,profile_id,page_id,offset,limit)
+            if grammar != None:
+                request += "&fields=%s" % grammar
+            put_http_callbacks = self.session.put(request,data=json.dumps(body))
+            put_http_callbacks.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return put_http_callbacks.json()
+
+    def deletePageEndpoint(self,profile_id,page_id,endpoint_id):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/http_callbacks/%s" % (self.server,profile_id,page_id,endpoint_id)
+            delete_http_callback = self.session.delete(request)
+            delete_http_callback.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return delete_http_callback.json()
+    
+    def deletePageEndpoints(self,profile_id,page_id,grammar=None,offset=0,limit=100):
+        try:
+            request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/http_callbacks?offset=%s&limit=%s" % (self.server,profile_id,page_id,offset,limit)
+            if grammar != None:
+                request += "&fields=%s" % grammar
+            delete_http_callbacks = self.session.delete(request)
+            delete_http_callbacks.raise_for_status()
+        except Exception as e:
+            print(e)
+            exit()
+        else:
+            return delete_http_callbacks.json()
+
     ####################################
     ## ELEMENT RESOURCES
     ####################################
@@ -603,7 +686,7 @@ class IFB():
         else:
             return get_element.json()
 
-    def readElements(self,profile_id,page_id,grammar=None,offset=0,limit=0):
+    def readElements(self,profile_id,page_id,grammar=None,offset=0,limit=100):
         try:
             request = "https://%s/exzact/api/v60/profiles/%s/pages/%s/elements?offset=%s&limit=%s" % (self.server,profile_id,page_id,offset,limit)
             if grammar != None:

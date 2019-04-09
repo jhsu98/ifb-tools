@@ -52,14 +52,14 @@ TO BE ADDED
 
 | Method | Resource | Function |
 |:------:|:--------:|:--------:|
-| POST | UserPageAssignments | createUserPageAssignments |
-| GET | UserPageAssignment | readUserPageAssignment |
-| GET | UserPageAssignments | readUserPageAssignments |
+| POST | User Page Assignments | createUserPageAssignments |
+| GET | User Page Assignment | readUserPageAssignment |
+| GET | User Page Assignments | readUserPageAssignments |
 | GET | * | readAllUserPageAssignments |
-| PUT | UserPageAssignment | updateUserPageAssignment |
-| PUT | UserPageAssignments | updateUserPageAssignments |
-| DELETE | UserPageAssignment | deleteUserPageAssignment |
-| DELETE | UserPageAssignments | deleteUserPageAssignments |
+| PUT | User Page Assignment | updateUserPageAssignment |
+| PUT | User Page Assignments | updateUserPageAssignments |
+| DELETE | User Page Assignment | deleteUserPageAssignment |
+| DELETE | User Page Assignments | deleteUserPageAssignments |
 
 ### Page
 | Method | Resource | Function |
@@ -75,14 +75,24 @@ TO BE ADDED
 
 | Method | Resource | Function |
 |:------:|:--------:|:--------:|
-| POST | PageAssignments | createPageAssignments |
-| GET | PageAssignment | readPageAssignment |
-| GET | PageAssignments | readPageAssignments |
+| POST | Page Assignments | createPageAssignments |
+| GET | Page Assignment | readPageAssignment |
+| GET | Page Assignments | readPageAssignments |
 | GET | * | readAllPageAssignments |
-| PUT | PageAssignment | updatePageAssignment |
-| PUT | PageAssignments | updatePageAssignments |
-| DELETE | PageAssignment | deletePageAssignment |
-| DELETE | PageAssignments | deletePageAssignments |
+| PUT | Page Assignment | updatePageAssignment |
+| PUT | Page Assignments | updatePageAssignments |
+| DELETE | Page Assignment | deletePageAssignment |
+| DELETE | Page Assignments | deletePageAssignments |
+
+| Method | Resource | Function |
+|:------:|:--------:|:--------:|
+| POST | HTTP Callback | createPageAssignments |
+| GET | HTTP Callback | readPageAssignment |
+| GET | HTTP Callbacks | readPageAssignments |
+| PUT | HTTP Callback | updatePageAssignment |
+| PUT | HTTP Callbacks | updatePageAssignments |
+| DELETE | HTTP Callback | deletePageAssignment |
+| DELETE | HTTP Callbacks | deletePageAssignments |
 
 ### Element
 | Method | Resource | Function |
