@@ -1,10 +1,7 @@
 import argparse
 from ifb import IFB
 
-def main(ifb):
-    print(ifb.access_token)
-
-if __name__ == "__main__":
+def main():
     # Define arguments for server, client-id, and client-secret
     parser = argparse.ArgumentParser(description='')
     parser.add_argument('--server', dest='servername', help='iFormBuilder server name (ie. app.iformbuilder.com)')
@@ -17,7 +14,7 @@ if __name__ == "__main__":
     client_id = args.client_id or ""
     client_secret = args.client_secret or ""
 
-    ifb = IFB(server,client_id,client_secret)
+    api = IFB(server,client_id,client_secret)
 
-    # Pass IFB Object to main()
-    main(ifb)
+if __name__ == "__main__":
+    main()
